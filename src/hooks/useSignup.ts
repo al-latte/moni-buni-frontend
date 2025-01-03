@@ -1,21 +1,29 @@
-import { useToast } from "./use-toast";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { signupUser } from '../services/auth.service';
+import { useToast } from './use-toast';
+import { SignupInput } from '../schemas/auth.schema';
+import { AxiosError } from 'axios';
 
 export const useSignup = () => {
-    const toast = useToast();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-    return {
-        signup: () => {
-            toast.toast({
-                variant: "success",
-                description: "Login Successful!",
-            });
-            
-            // Navigate to home page
-            navigate('/');
-            
-            console.log('login');
-        }
-    }
-}
+  return useMutation({
+    mutationFn: (data: SignupInput) => signupUser(data),
+    onSuccess: (data) => {
+      localStorage.setItem('user', JSON.stringify(data));
+      toast({
+        variant: "success",
+        description: "Account created successfully!",
+      });
+      navigate('/');
+    },
+    onError: (error: AxiosError) => {
+      toast({
+        variant: "destructive",
+        description: error?.response?.data?.message || "Signup failed",
+      });
+    },
+  });
+};
