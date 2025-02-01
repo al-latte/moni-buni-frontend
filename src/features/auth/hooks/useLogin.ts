@@ -1,18 +1,20 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/auth.service';
-import { useToast } from './use-toast';
-import { LoginInput } from '../schemas/auth.schema';
+import { authService } from '../api/authService';
+import { useAuth } from './useAuth';
+import { useToast } from '../../../hooks/use-toast';
 import { AxiosError } from 'axios';
+import { LoginFormValues } from '../schemas/authSchema';
 
 export const useLogin = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: (data: LoginInput) => loginUser(data),
+    mutationFn: (data: LoginFormValues) => authService.loginUser(data),
     onSuccess: (data) => {
-      localStorage.setItem('user', JSON.stringify(data));
+      login(data);
       toast({
         variant: "success",
         description: "Login Successful!",

@@ -1,8 +1,11 @@
 import { BreakdownDetail } from "./BreakdownDetail"
 import { Chart } from "./Chart"
-import { TransactionList } from "./TransactionList"
+import TransactionList from "../features/transactions/components/TransactionList"
+import { AddEditTransactionDialog } from "../features/transactions/components/AddEditTransactionDialog"
 
 export const TabContentLayout = () => {
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
   return (
     <div>
         {/* Mobile Layout */}
@@ -16,7 +19,8 @@ export const TabContentLayout = () => {
               
               <Chart />
               <BreakdownDetail />
-              <TransactionList />
+              <TransactionList userId={user?._id} />
+              <AddEditTransactionDialog />
             </div>
           </div>
           {/* Desktop Layout */}
@@ -27,7 +31,7 @@ export const TabContentLayout = () => {
                 <br /> 
                 <span>of $500 spent</span> 
               </p>
-              <TransactionList />
+              <TransactionList userId={user?.id} />
             </div>
             <div className="lg:w-1/2">
               <Chart />
