@@ -25,7 +25,7 @@ export const useSignup = () => {
         throw new Error('Invalid response format');
       }
     },
-    onError: (error: AxiosError) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       toast({
         variant: "destructive",
         description: error?.response?.data?.message || "Signup failed",

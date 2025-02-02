@@ -21,7 +21,7 @@ export const useLogin = () => {
       });
       navigate('/');
     },
-    onError: (error: AxiosError) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       toast({
         variant: "destructive",
         description: error?.response?.data?.message || "Login failed",

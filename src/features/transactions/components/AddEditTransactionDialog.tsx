@@ -69,11 +69,11 @@ export const AddEditTransactionDialog = ({
     defaultValues: transaction
       ? {
           amount: transaction.amount,
-          category: transaction.category._id,
+          category: transaction.category,
           description: transaction.description,
           transactionType: transaction.transactionType,
           date: new Date(transaction.date),
-          wallet: transaction.wallet._id,
+          wallet: transaction.wallet,
         }
       : {
           amount: 0,

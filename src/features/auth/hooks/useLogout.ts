@@ -20,7 +20,7 @@ export const useLogout = () => {
         description: "Logged out successfully",
       });
     },
-    onError: (error: AxiosError) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       console.error('Logout error:', error);
       toast({
         variant: "destructive",
