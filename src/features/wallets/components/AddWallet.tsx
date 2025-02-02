@@ -69,7 +69,7 @@ export const AddWallet = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Title</FormLabel>
-                  <FormControl>
+                  <FormControl className="rounded-full">
                     <Input {...field} />
                   </FormControl>
                   <FormMessage />
@@ -83,7 +83,7 @@ export const AddWallet = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Initial Balance</FormLabel>
-                  <FormControl>
+                  <FormControl className="rounded-full">
                     <Input 
                       type="number"
                       {...field}
@@ -100,7 +100,7 @@ export const AddWallet = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
-                  <FormControl>
+                  <FormControl className="rounded-full">
                     <Textarea {...field} />
                   </FormControl>
                   <FormMessage />
@@ -112,10 +112,10 @@ export const AddWallet = () => {
               control={form.control}
               name="setAsDefault"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
+                <FormItem className="flex flex-row items-center justify-between p-4">
+                  <div className="space-y-0.5 ">
                     <FormLabel className="text-base">Default Wallet</FormLabel>
-                    <FormDescription>
+                    <FormDescription >
                       Use this wallet as your primary account
                     </FormDescription>
                   </div>

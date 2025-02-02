@@ -82,7 +82,7 @@ export const AddCategory = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Title</FormLabel>
-                  <FormControl>
+                  <FormControl className="rounded-full">
                     <Input {...field} />
                   </FormControl>
                   <FormMessage />
@@ -98,7 +98,7 @@ export const AddCategory = () => {
                   <FormLabel>Icon</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="rounded-full">
                         <SelectValue placeholder="Select icon" />
                       </SelectTrigger>
                     </FormControl>

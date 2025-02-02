@@ -3,12 +3,14 @@ import { AuthResponse, User } from '../types/auth.types';
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    setIsLoading(false);
   }, []);
 
   const login = (data: AuthResponse) => {
@@ -25,5 +27,5 @@ export const useAuth = () => {
     setUser(null);
   };
 
-  return { user, login, logout };
+  return { user, isLoading, login, logout };
 };

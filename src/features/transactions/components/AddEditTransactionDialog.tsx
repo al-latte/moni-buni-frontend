@@ -12,6 +12,7 @@ import { useWallets } from "../../wallets/hooks/useWallets";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -46,6 +47,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { AddWallet } from "@/features/wallets/components/AddWallet";
+import { Portal } from "@radix-ui/react-dialog";
 
 export const AddEditTransactionDialog = ({
   transaction,
@@ -107,10 +109,11 @@ export const AddEditTransactionDialog = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] md:h-auto h-full max-h-screen overflow-auto">
-        <DialogHeader className="flex flex-col items-center">
+        <DialogHeader>
           <DialogTitle>
             {isEditing ? "Edit Transaction" : "Add Transaction"}
           </DialogTitle>
+          <DialogDescription>Track your new transaction</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -133,7 +136,7 @@ export const AddEditTransactionDialog = ({
                         />
                         <Label
                           htmlFor="expense"
-                          className="flex items-center justify-center gap-2 rounded-full border-2 border-black bg-popover py-3 px-6 peer-data-[state=checked]:bg-black peer-data-[state=checked]:text-white"
+                          className="cursor-pointer flex items-center justify-center gap-2 rounded-full border-2 border-black bg-popover py-3 px-6 peer-data-[state=checked]:bg-black peer-data-[state=checked]:text-white"
                         >
                           Expense
                         </Label>
@@ -147,7 +150,7 @@ export const AddEditTransactionDialog = ({
                         />
                         <Label
                           htmlFor="income"
-                          className="flex items-center justify-center gap-2 rounded-full border-2 border-black bg-popover py-3 px-6 peer-data-[state=checked]:bg-black peer-data-[state=checked]:text-white"
+                          className="cursor-pointer flex items-center justify-center gap-2 rounded-full border-2 border-black bg-popover py-3 px-6 peer-data-[state=checked]:bg-black peer-data-[state=checked]:text-white"
                         >
                           Income
                         </Label>
@@ -160,12 +163,13 @@ export const AddEditTransactionDialog = ({
             />
 
             <FormField
+        
               control={form.control}
               name="amount"
               render={({ field }) => (
-                <FormItem>
+                <FormItem >
                   <FormLabel>Amount</FormLabel>
-                  <FormControl>
+                  <FormControl className="rounded-full">
                     <Input type="number" {...field} />
                   </FormControl>
                   <FormMessage />
@@ -181,7 +185,7 @@ export const AddEditTransactionDialog = ({
                   <FormLabel>Category</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger>
+                      <SelectTrigger className="rounded-full">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -204,7 +208,7 @@ export const AddEditTransactionDialog = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
-                  <FormControl>
+                  <FormControl className="rounded-full">
                     <Input {...field} />
                   </FormControl>
                   <FormMessage />
@@ -218,39 +222,51 @@ export const AddEditTransactionDialog = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Date</FormLabel>
-                  <FormControl>
-                    <Popover>
-                      <PopoverTrigger asChild>
+                  <Popover modal>
+                    <PopoverTrigger asChild>
+                      <FormControl className="rounded-full">
                         <Button
+                          type="button"
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal",
+                            "w-full pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
                           {field.value ? (
-                            format(new Date(field.value), "PPP")
+                            format(field.value, "PPP")
                           ) : (
                             <span>Pick a date</span>
                           )}
                         </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={
-                            field.value ? new Date(field.value) : undefined
-                          }
-                          onSelect={(date) => {
-                            console.log(date);
-                            field.onChange(date);
-                          }}
-                          initialFocus
-                        />
+                      </FormControl>
+                    </PopoverTrigger>
+                    <Portal>
+                      <PopoverContent
+                        className="z-[9999] bg-background p-0 w-full"
+                        
+                      >
+                        <div
+                          className="p-0"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(date) => {
+                              field.onChange(date);
+                            }}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                            className="border-none"
+                          />
+                        </div>
                       </PopoverContent>
-                    </Popover>
-                  </FormControl>
+                    </Portal>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}
@@ -264,7 +280,7 @@ export const AddEditTransactionDialog = ({
                   <FormLabel>Wallet</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger>
+                      <SelectTrigger className="rounded-full">
                         <SelectValue placeholder="Select wallet" />
                       </SelectTrigger>
                       <SelectContent>

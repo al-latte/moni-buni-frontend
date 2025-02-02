@@ -1,7 +1,6 @@
 import { BreakdownDetail } from "./BreakdownDetail"
 import { Chart } from "./Chart"
 import TransactionList from "../features/transactions/components/TransactionList"
-import { AddEditTransactionDialog } from "../features/transactions/components/AddEditTransactionDialog"
 
 export const TabContentLayout = () => {
 
@@ -20,7 +19,6 @@ export const TabContentLayout = () => {
               <Chart />
               <BreakdownDetail />
               <TransactionList userId={user?._id} />
-              <AddEditTransactionDialog />
             </div>
           </div>
           {/* Desktop Layout */}
@@ -31,7 +29,7 @@ export const TabContentLayout = () => {
                 <br /> 
                 <span>of $500 spent</span> 
               </p>
-              <TransactionList userId={user?.id} />
+              <TransactionList userId={user?._id} />
             </div>
             <div className="lg:w-1/2">
               <Chart />

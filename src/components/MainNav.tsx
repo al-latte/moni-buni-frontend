@@ -28,7 +28,7 @@ export const MainNav = () => {
               <p className="text-xs font-medium">Transactions</p>
             </div>
           </Link>
-          <Link to="/">
+          <Link to="/wallets">
             <div className="flex flex-col items-center">
               <WalletMinimal />
               <p className="text-xs font-medium">Wallets</p>
