@@ -8,8 +8,11 @@ export const walletService = {
       const { data } = await api.get(`/api/wallets/${userId}`);
       return data.wallets;
     } catch (error) {
-      console.error("Error in getAll wallets:", error);
       if (error instanceof AxiosError) {
+        if(error.status === 404) {
+          return [];
+        }
+        console.error("Error in getAll wallets:", error);
         throw new Error(error.response?.data?.message || "Failed to fetch wallets");
       }
       throw error;

@@ -8,8 +8,11 @@ export const categoryService = {
       const { data } = await api.get(`/api/categories/${userId}`);
       return data.categories;
     } catch (error) {
-      console.error("Error in getAll categories:", error);
       if (error instanceof AxiosError) {
+        if(error.status === 404) {
+          return [];
+        }
+        console.error("Error in getAll categories:", error);
         throw new Error(error.response?.data?.message || "Failed to fetch categories");
       }
       throw error;

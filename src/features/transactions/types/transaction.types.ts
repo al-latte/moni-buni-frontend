@@ -8,3 +8,11 @@ export interface Transaction {
   wallet: string;
   userId: string;
 }
+
+export type Period = 'week' | 'month' | 'year' | 'alltime';
+
+export interface TransactionGroup {
+  date: string;
+  transactions: Transaction[];
+  total: number;
+}

@@ -9,6 +9,9 @@ export const transactionService = {
       return data.transactions;
     } catch (error) {
       if (error instanceof AxiosError) {
+        if(error.response?.status === 404) {
+          return [];
+        }
         console.error("Get all transactions error:", error);
         throw new Error(error.response?.data?.message || "Failed to fetch transactions");
       }
@@ -34,7 +37,7 @@ export const transactionService = {
     transaction: Partial<Transaction>
   ): Promise<Transaction> => {
     try {
-      const { data } = await api.put(`/api/transactions/${id}`, transaction);
+      const { data } = await api.put(`/api/transactions/update/${id}`, transaction);
       return data.transaction;
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -47,7 +50,7 @@ export const transactionService = {
 
   delete: async (id: string): Promise<void> => {
     try {
-      await api.delete(`/api/transactions/${id}`);
+      await api.delete(`/api/transactions/delete/${id}`);
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error("Delete transaction error:", error);

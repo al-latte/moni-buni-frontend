@@ -89,7 +89,7 @@ const SignupForm = () => {
           <p>
             Already have an account?{" "}
             <Link to="/login">
-              <Button variant="link" className="font-bold">
+              <Button variant="link" className="font-bold underline">
                 Login
               </Button>
             </Link>

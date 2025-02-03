@@ -163,11 +163,10 @@ export const AddEditTransactionDialog = ({
             />
 
             <FormField
-        
               control={form.control}
               name="amount"
               render={({ field }) => (
-                <FormItem >
+                <FormItem>
                   <FormLabel>Amount</FormLabel>
                   <FormControl className="rounded-full">
                     <Input type="number" {...field} />
@@ -189,11 +188,17 @@ export const AddEditTransactionDialog = ({
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
-                        {categories?.map((category) => (
-                          <SelectItem key={category._id} value={category._id}>
-                            {category.title}
+                        {categories?.length ? (
+                          categories.map((category) => (
+                            <SelectItem key={category._id} value={category._id}>
+                              {category.title}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value=" " disabled>
+                            No Categories Available
                           </SelectItem>
-                        ))}
+                        )}
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -243,10 +248,7 @@ export const AddEditTransactionDialog = ({
                       </FormControl>
                     </PopoverTrigger>
                     <Portal>
-                      <PopoverContent
-                        className="z-[9999] bg-background p-0 w-full"
-                        
-                      >
+                      <PopoverContent className="z-[9999] bg-background p-0 w-full">
                         <div
                           className="p-0"
                           onClick={(e) => e.stopPropagation()}
@@ -284,11 +286,13 @@ export const AddEditTransactionDialog = ({
                         <SelectValue placeholder="Select wallet" />
                       </SelectTrigger>
                       <SelectContent>
-                        {wallets?.map((wallet) => (
+                        {wallets?.length ? (wallets?.map((wallet) => (
                           <SelectItem key={wallet._id} value={wallet._id}>
                             {wallet.title}
                           </SelectItem>
-                        ))}
+                        ))) : (<SelectItem value=" " disabled>
+                          No Wallets Available
+                        </SelectItem>)}
                       </SelectContent>
                     </Select>
                   </FormControl>

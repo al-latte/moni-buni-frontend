@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { loginSchema, type LoginFormValues } from '../schemas/authSchema';
 import { useLogin } from '../hooks/useLogin';
 import fullLogo from "@/assets/logo/full-ver.svg";
+import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
   const { mutate: login, isPending } = useLogin();
@@ -60,6 +61,16 @@ const LoginForm = () => {
           >
             {isPending ? 'Logging in...' : 'Login'}
           </Button>
+        </div>
+        <div className="flex flex-col gap-4 items-center">
+          <p>
+            Don't have an account?{" "}
+            <Link to="/signup">
+              <Button variant="link" className="font-bold underline">
+                Sign Up Now!
+              </Button>
+            </Link>
+          </p>
         </div>
       </form>
     </div>
