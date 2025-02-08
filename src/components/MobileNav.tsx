@@ -5,13 +5,11 @@ import {
   WalletMinimal
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { AddEditTransactionDialog } from "@/features/transactions/components/AddEditTransactionDialog";
 import SettingsMenu from "./SettingsMenu";
-import { useState } from "react";
+import { useTransactionDialogStore } from "@/stores/transaction.store";
 
 export const MobileNav = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+  const { openDialog } = useTransactionDialogStore();
 
   return (
     <>
@@ -29,7 +27,7 @@ export const MobileNav = () => {
           </div>
         </Link>
         <div
-          onClick={() => setIsDialogOpen(true)}
+          onClick={() => openDialog()}
           className="bg-black text-white rounded-full p-3 cursor-pointer"
         >
           <Plus />
@@ -41,11 +39,7 @@ export const MobileNav = () => {
           </div>
         </Link>
         <SettingsMenu />
-      </div>
-      <AddEditTransactionDialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-      />
+      </div>  
     </>
   );
 };

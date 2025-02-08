@@ -13,14 +13,15 @@ import {
   DropdownMenuGroup,
 } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { AddEditTransactionDialog } from "./AddEditTransactionDialog";
-import { useTransactionMutations } from '../hooks/useTransaction';
+import { useTransactionMutations } from "../hooks/useTransaction";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { useTransactionDialogStore } from "@/stores/transaction.store";
+import { useState } from 'react';
 
 const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const { openDialog } = useTransactionDialogStore();
   const { deleteTransaction } = useTransactionMutations();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const { data: categories } = useCategories(transaction.userId);
 
@@ -31,13 +32,18 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
     ? categoryIcons[category.icon as IconName]
     : CreditCard;
 
-    const handleDelete = async () => {
-      try {
-        await deleteTransaction.mutateAsync(transaction?._id);
-      } catch (error) {
-        console.error('Failed to delete transaction:', error);
-      }
+  const handleEdit = () => {
+      setIsDropdownOpen(false);
+      openDialog(transaction);
     };
+
+  const handleDelete = async () => {
+    try {
+      await deleteTransaction.mutateAsync(transaction?._id);
+    } catch (error) {
+      console.error("Failed to delete transaction:", error);
+    }
+  };
 
   return (
     <>
@@ -65,33 +71,31 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
               {transaction.transactionType === "expense" ? "-" : "+"}$
               {Math.abs(transaction.amount).toFixed(2)}
             </p>
-            <DropdownMenu>
+            <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
               <DropdownMenuTrigger asChild>
                 <Ellipsis />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="px-3 mx-2 bg-white shadow-md border rounded">
                 <DropdownMenuGroup>
-                <DropdownMenuItem className="cursor-pointer py-3">
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsEditDialogOpen(true)}
-                    className="w-full"
-                  >
-                    <Edit className="h-4 w-4" />
-                    Edit
-                  </Button>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer py-3">
-                  <Button
-                    variant="destructive"
-                    onClick={handleDelete}
-                      className="w-full"
-                  >
-                    <Trash className="h-4 w-4" />
-                    Delete
-                  </Button>
-                </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer py-3">
+                    <Button
+                      onClick={handleEdit}
+                      className="rounded-full w-full"
+                    >
+                      <Edit className="h-4 w-4" />
+                      Edit
+                    </Button>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer py-3">
+                    <Button
+                      onClick={handleDelete}
+                      className="rounded-full w-full bg-red-600"
+                    >
+                      <Trash className="h-4 w-4" />
+                      Delete
+                    </Button>
+                  </DropdownMenuItem>
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -99,11 +103,6 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
         </div>
         <Separator />
       </div>
-      <AddEditTransactionDialog
-        transaction={transaction}
-        open={isEditDialogOpen}
-        onOpenChange={setIsEditDialogOpen}
-      />
     </>
   );
 };

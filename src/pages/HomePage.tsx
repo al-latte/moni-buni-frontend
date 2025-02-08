@@ -1,6 +1,9 @@
 import { MainNav } from "@/components/MainNav"
 import { MobileNav } from "@/components/MobileNav"
 import { PeriodFilterTabs } from "@/components/PeriodFilterTabs"
+import { AddCategory } from "@/features/categories/components/AddCategory"
+import { AddEditTransactionDialog } from "@/features/transactions/components/AddEditTransactionDialog"
+import { AddWallet } from "@/features/wallets/components/AddWallet"
 
 
 export const HomePage = () => {
@@ -15,6 +18,9 @@ export const HomePage = () => {
         <div className="flex-1 md:py-4 md:px-20">
           <PeriodFilterTabs />
         </div>
+        <AddEditTransactionDialog/>
+        <AddCategory/>
+        <AddWallet/>
     </div>
   )
 }

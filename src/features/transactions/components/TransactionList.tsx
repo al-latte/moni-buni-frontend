@@ -4,8 +4,7 @@ import { useTransactions } from "../hooks/useTransactions";
 import { Progress } from "@/components/ui/progress";
 import TransactionGroup from "./TransactionGroup";
 import { Period } from "../types/transaction.types";
-import { filterTransactionsByPeriod, groupTransactionsByPeriod } from "../utils/dateFilters";
-
+import { filterTransactionsByPeriod, groupTransactionsByPeriod } from "@/utils/dateFilters";
 const TransactionList = ({ userId, period }: { userId: string; period: Period }) => {
   const { data: transactions, isLoading, error } = useTransactions(userId);
   const filteredTransactions = filterTransactionsByPeriod(transactions || [], period);
@@ -27,6 +26,7 @@ const TransactionList = ({ userId, period }: { userId: string; period: Period })
   }, [isLoading]);
 
   return (
+    
     <div className="mb-44">
       <div>
         <h2 className="text-2xl font-bold my-4">Transactions</h2>
@@ -54,6 +54,7 @@ const TransactionList = ({ userId, period }: { userId: string; period: Period })
         />
       ))}
         </div>
+        
       )}
     </div>
   );

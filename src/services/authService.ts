@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
-import { api } from '../../../services/axios.config';
-import { AuthResponse } from "../types/auth.types";
-import { LoginFormValues, SignupFormValues } from "../schemas/authSchema";
+import { api } from './axios.config';
+import { AuthResponse } from "../features/auth/types/auth.types";
+import { LoginFormValues, SignupFormValues } from "../features/auth/schemas/authSchema";
 
 export const authService = {
   loginUser: async (credentials: LoginFormValues): Promise<AuthResponse> => {

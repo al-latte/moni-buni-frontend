@@ -1,5 +1,5 @@
 import { useTransactions } from './useTransactions';
-import { filterTransactionsByPeriod } from '../utils/dateFilters';
+import { filterTransactionsByPeriod } from '@/utils/dateFilters';
 import { Period } from '../types/transaction.types';
 
 export const useTotalExpenses = (userId: string, period: Period) => {

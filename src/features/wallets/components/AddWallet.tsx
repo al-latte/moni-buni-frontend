@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { walletSchema, type WalletFormValues } from "../schemas/walletSchema";
@@ -6,18 +5,18 @@ import { useWalletMutations } from "../hooks/useWallet";
 import { useAuth } from "../../auth/hooks/useAuth";
 import {
   Dialog, DialogContent, DialogDescription, DialogFooter,
-  DialogHeader, DialogTitle, DialogTrigger
+  DialogHeader, DialogTitle
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus } from "lucide-react";
 import { Form, FormField, FormItem, FormLabel, FormDescription, FormControl, FormMessage } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
+import { useWalletDialogStore } from "@/stores/wallet.store";
 
 
 export const AddWallet = () => {
-  const [open, setOpen] = useState(false);
+  const { isDialogOpen, closeDialog } = useWalletDialogStore();
   const { createWallet } = useWalletMutations();
   const { user } = useAuth();
 
@@ -38,22 +37,18 @@ export const AddWallet = () => {
         ...data,
         userId: user._id,
       });
-      setOpen(false);
       form.reset();
+      closeDialog();
     } catch (error) {
       console.error("Error creating wallet:", error);
     }
   };
 
+  if (!isDialogOpen) return null;
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="rounded-full">
-          <Plus className="h-4 w-4" />
-          Add new wallet
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={isDialogOpen} onOpenChange={(open) => !open && closeDialog()}>
+      <DialogContent className="sm:max-w-[425px] z-[60]">
         <DialogHeader>
           <DialogTitle>Add Wallet</DialogTitle>
           <DialogDescription>

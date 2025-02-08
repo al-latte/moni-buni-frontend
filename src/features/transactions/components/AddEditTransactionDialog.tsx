@@ -5,7 +5,6 @@ import {
   transactionSchema,
   type TransactionFormValues,
 } from "../schemas/transactionSchema";
-import { Transaction } from "../types/transaction.types";
 import { useTransactionMutations } from "../hooks/useTransaction";
 import { useCategories } from "../../categories/hooks/useCategories";
 import { useWallets } from "../../wallets/hooks/useWallets";
@@ -35,9 +34,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Plus } from "lucide-react";
 import { format } from "date-fns";
-import { AddCategory } from "@/features/categories/components/AddCategory";
 import {
   Form,
   FormControl,
@@ -46,44 +44,60 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AddWallet } from "@/features/wallets/components/AddWallet";
 import { Portal } from "@radix-ui/react-dialog";
+import { useTransactionDialogStore } from "@/stores/transaction.store";
+import { useCategoryDialogStore } from "@/stores/category.store";
+import { useWalletDialogStore } from "@/stores/wallet.store";
+import { useEffect, useCallback } from "react";
 
-export const AddEditTransactionDialog = ({
-  transaction,
-  open,
-  onOpenChange,
-}: {
-  transaction?: Transaction;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) => {
+export const AddEditTransactionDialog = () => {
   const { createTransaction, updateTransaction } = useTransactionMutations();
   const { user } = useAuth();
+
+  const { isDialogOpen, transaction, closeDialog } =
+    useTransactionDialogStore();
+  const { openDialog: openCategoryDialog } = useCategoryDialogStore();
+  const { openDialog: openWalletDialog } = useWalletDialogStore();
+
   const { data: categories } = useCategories(user?._id);
   const { data: wallets } = useWallets(user?._id);
   const isEditing = !!transaction;
 
+  const defaultValues: TransactionFormValues = {
+    amount: 0,
+    category: "",
+    description: "",
+    transactionType: "expense" as const,
+    date: new Date(),
+    wallet: "",
+  };
+
   const form = useForm<TransactionFormValues>({
     resolver: zodResolver(transactionSchema),
-    defaultValues: transaction
-      ? {
-          amount: transaction.amount,
-          category: transaction.category,
-          description: transaction.description,
-          transactionType: transaction.transactionType,
-          date: new Date(transaction.date),
-          wallet: transaction.wallet,
-        }
-      : {
-          amount: 0,
-          category: "",
-          description: "",
-          transactionType: "expense",
-          date: new Date(),
-          wallet: "",
-        },
+    defaultValues,
   });
+
+  const resetFormWithTransaction = useCallback(() => {
+    if (!transaction) {
+      form.reset(defaultValues);
+      return;
+    }
+
+    form.reset({
+      amount: transaction.amount,
+      category: transaction.category,
+      description: transaction.description,
+      transactionType: transaction.transactionType,
+      date: new Date(transaction.date),
+      wallet: transaction.wallet,
+    });
+  }, [transaction, form]);
+
+  useEffect(() => {
+    if (isDialogOpen) {
+      resetFormWithTransaction();
+    }
+  }, [isDialogOpen, resetFormWithTransaction]);
 
   const onSubmit = async (data: TransactionFormValues) => {
     try {
@@ -101,19 +115,24 @@ export const AddEditTransactionDialog = ({
         });
       }
       form.reset();
+      closeDialog();
     } catch (error) {
       console.error("Error submitting transaction:", error);
     }
   };
 
+  if (!isDialogOpen) return null;
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={isDialogOpen} onOpenChange={(open) => !open && closeDialog()}>
       <DialogContent className="sm:max-w-[425px] md:h-auto h-full max-h-screen overflow-auto">
         <DialogHeader>
           <DialogTitle>
             {isEditing ? "Edit Transaction" : "Add Transaction"}
           </DialogTitle>
-          <DialogDescription>Track your new transaction</DialogDescription>
+          <DialogDescription>
+            {isEditing ? "Edit your transaction" : "Track your new transaction"}
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -286,13 +305,17 @@ export const AddEditTransactionDialog = ({
                         <SelectValue placeholder="Select wallet" />
                       </SelectTrigger>
                       <SelectContent>
-                        {wallets?.length ? (wallets?.map((wallet) => (
-                          <SelectItem key={wallet._id} value={wallet._id}>
-                            {wallet.title}
+                        {wallets?.length ? (
+                          wallets?.map((wallet) => (
+                            <SelectItem key={wallet._id} value={wallet._id}>
+                              {wallet.title}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value=" " disabled>
+                            No Wallets Available
                           </SelectItem>
-                        ))) : (<SelectItem value=" " disabled>
-                          No Wallets Available
-                        </SelectItem>)}
+                        )}
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -313,8 +336,23 @@ export const AddEditTransactionDialog = ({
           </form>
         </Form>
         <div className="mt-4 flex flex-row justify-between">
-          <AddCategory />
-          <AddWallet />
+          <Button
+            type="button"
+            variant="outline"
+            className="rounded-full"
+            onClick={() => openCategoryDialog()}
+          >
+            <Plus className="h-4 w-4" />
+            Add new category
+          </Button>
+          <Button
+            variant="outline"
+            className="rounded-full"
+            onClick={() => openWalletDialog()}
+          >
+            <Plus className="h-4 w-4" />
+            Add new wallet
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

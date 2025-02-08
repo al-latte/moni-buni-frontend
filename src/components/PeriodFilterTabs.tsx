@@ -7,11 +7,11 @@ import {
 
 import fullHorizontalLogo from "./../assets/logo/full-ver.svg"
 import { TabContentLayout } from "./TabContentLayout"
-import { useState } from "react";
+import { usePeriod } from "@/contexts/PeriodContext"
 import { Period } from "@/features/transactions/types/transaction.types";
 
 export const PeriodFilterTabs = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState<Period>('week');
+  const { selectedPeriod, setSelectedPeriod } = usePeriod();
   
   return (
     <>
@@ -26,16 +26,16 @@ export const PeriodFilterTabs = () => {
         <TabsTrigger className="rounded-full h-full data-[state=active]:bg-black data-[state=active]:text-white" value="alltime">All Time</TabsTrigger>
       </TabsList>
       <TabsContent value="week">
-        <TabContentLayout period={selectedPeriod} />
+        <TabContentLayout/>
       </TabsContent>
       <TabsContent value="month">
-        <TabContentLayout period={selectedPeriod} />
+        <TabContentLayout />
       </TabsContent>
       <TabsContent value="year">
-        <TabContentLayout period={selectedPeriod} />
+        <TabContentLayout />
       </TabsContent>
       <TabsContent value="alltime">
-        <TabContentLayout period={selectedPeriod} />
+        <TabContentLayout />
       </TabsContent>
     </Tabs>
     </>

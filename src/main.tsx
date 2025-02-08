@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { AppRoutes } from './AppRoutes'
 import { Toaster } from "@/components/ui/toaster"
 import './index.css'
+import { PeriodProvider } from './contexts/PeriodContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,8 +20,10 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <Router>
-        <AppRoutes />
-        <Toaster />
+      <PeriodProvider>
+          <AppRoutes />
+          <Toaster />
+        </PeriodProvider>
       </Router>
     </QueryClientProvider>
   </StrictMode>,

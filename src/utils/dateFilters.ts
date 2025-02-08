@@ -3,7 +3,7 @@ import {
   Transaction,
   Period,
   TransactionGroup,
-} from "../types/transaction.types";
+} from "../features/transactions/types/transaction.types";
 
 export const filterTransactionsByPeriod = (
   transactions: Transaction[],

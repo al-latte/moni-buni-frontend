@@ -1,17 +1,11 @@
-import {
-  DollarSign,
-  Plus,
-  ReceiptText,
-  WalletMinimal,
-} from "lucide-react";
+import { DollarSign, Plus, ReceiptText, WalletMinimal } from "lucide-react";
 import { Link } from "react-router-dom";
 import fullHorizontalLogo from "./../assets/logo/full-ver-white2.svg";
-import { useState } from "react";
-import { AddEditTransactionDialog } from "@/features/transactions/components/AddEditTransactionDialog";
 import SettingsMenu from "./SettingsMenu";
+import { useTransactionDialogStore } from "@/stores/transaction.store";
 
 export const MainNav = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { openDialog } = useTransactionDialogStore();
 
   return (
     <>
@@ -36,7 +30,7 @@ export const MainNav = () => {
           </Link>
           <Link to="/">
             <div
-              onClick={() => setIsDialogOpen(true)}
+              onClick={() => openDialog()}
               className="flex flex-col items-center"
             >
               <div className="bg-white text-black rounded-full p-3 flex items-center justify-center w-10 h-10">
@@ -52,12 +46,9 @@ export const MainNav = () => {
             </div>
           </Link>
         </div>
-          <SettingsMenu />
+        <SettingsMenu />
       </div>
-      <AddEditTransactionDialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-      />
+      
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { api } from "@/services/axios.config";
-import { Category } from "../types/category.types";
+import { Category } from "../features/categories/types/category.types";
 
 export const categoryService = {
   getAll: async (userId: string): Promise<Category[]> => {
@@ -9,11 +9,13 @@ export const categoryService = {
       return data.categories;
     } catch (error) {
       if (error instanceof AxiosError) {
-        if(error.status === 404) {
+        if (error.status === 404) {
           return [];
         }
         console.error("Error in getAll categories:", error);
-        throw new Error(error.response?.data?.message || "Failed to fetch categories");
+        throw new Error(
+          error.response?.data?.message || "Failed to fetch categories"
+        );
       }
       throw error;
     }
@@ -27,20 +29,27 @@ export const categoryService = {
     } catch (error) {
       console.error("Error in create category:", error);
       if (error instanceof AxiosError) {
-        throw new Error(error.response?.data?.message || "Failed to create category");
+        throw new Error(
+          error.response?.data?.message || "Failed to create category"
+        );
       }
       throw error;
     }
   },
 
-  update: async (id: string, category: Partial<Category>): Promise<Category> => {
+  update: async (
+    id: string,
+    category: Partial<Category>
+  ): Promise<Category> => {
     try {
       const { data } = await api.put(`/api/categories/${id}`, category);
       return data.category;
     } catch (error) {
       console.error("Error in update category:", error);
       if (error instanceof AxiosError) {
-        throw new Error(error.response?.data?.message || "Failed to update category");
+        throw new Error(
+          error.response?.data?.message || "Failed to update category"
+        );
       }
       throw error;
     }
@@ -52,9 +61,11 @@ export const categoryService = {
     } catch (error) {
       console.error("Error in delete category:", error);
       if (error instanceof AxiosError) {
-        throw new Error(error.response?.data?.message || "Failed to delete category");
+        throw new Error(
+          error.response?.data?.message || "Failed to delete category"
+        );
       }
       throw error;
     }
-  }
+  },
 };

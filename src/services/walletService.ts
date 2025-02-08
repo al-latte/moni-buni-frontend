@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { api } from "@/services/axios.config";
-import { Wallet } from "../types/wallet.types";
+import { Wallet } from "../features/wallets/types/wallet.types";
 
 export const walletService = {
   getAll: async (userId: string): Promise<Wallet[]> => {

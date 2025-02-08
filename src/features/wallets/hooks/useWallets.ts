@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { walletService } from '../api/walletService';
+import { walletService } from '@/services/walletService';
 import { Wallet } from '../types/wallet.types';
 
 export const useWallets = (userId: string | undefined) => {

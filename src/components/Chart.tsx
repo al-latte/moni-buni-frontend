@@ -1,7 +1,7 @@
 import { Line, LineChart, XAxis, YAxis } from "recharts"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { useTransactions } from "@/features/transactions/hooks/useTransactions"
-import { filterTransactionsByPeriod } from "@/features/transactions/utils/dateFilters"
+import { filterTransactionsByPeriod } from "@/utils/dateFilters"
 import { Period } from "@/features/transactions/types/transaction.types"
 import moment from "moment"
 import { useMemo } from "react"

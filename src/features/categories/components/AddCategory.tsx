@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -15,7 +14,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,15 +24,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus } from "lucide-react";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { useCategoryDialogStore } from "@/stores/category.store";
 
 export const AddCategory = () => {
-  const [open, setOpen] = useState(false);
+  const { isDialogOpen, closeDialog } = useCategoryDialogStore();
   const { createCategory } = useCategoryMutations();
   const { user } = useAuth();
 
-    const form = useForm<CategoryFormValues>({
+  const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
       title: "",
@@ -45,29 +50,25 @@ export const AddCategory = () => {
   const onSubmit = async (data: CategoryFormValues) => {
     try {
       if (!user?._id) {
-        console.error('No user ID available');
+        console.error("No user ID available");
         return;
       }
       await createCategory.mutateAsync({
         ...data,
         userId: user?._id,
       });
-      setOpen(false);
+      closeDialog();
       form.reset();
     } catch (error) {
       console.error("Error creating category:", error);
     }
   };
 
+  if (!isDialogOpen) return null;
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button type="button" variant="outline" className="rounded-full">
-          <Plus className="h-4 w-4" />
-          Add new category
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={isDialogOpen} onOpenChange={(open) => !open && closeDialog()}>
+      <DialogContent className="sm:max-w-[425px] z-[60]">
         <DialogHeader>
           <DialogTitle>Add Category</DialogTitle>
           <DialogDescription>
@@ -119,8 +120,14 @@ export const AddCategory = () => {
             />
 
             <DialogFooter>
-              <Button className="rounded-full flex-1 md:py-6 py-4 font-bold" type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? "Creating..." : "Create category"}
+              <Button
+                className="rounded-full flex-1 md:py-6 py-4 font-bold"
+                type="submit"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting
+                  ? "Creating..."
+                  : "Create category"}
               </Button>
             </DialogFooter>
           </form>

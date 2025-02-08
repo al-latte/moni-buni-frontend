@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { walletService } from '../api/walletService';
+import { walletService } from '@/services/walletService';
 import { Wallet } from '../types/wallet.types';
 import { useToast } from '@/hooks/use-toast';
 
