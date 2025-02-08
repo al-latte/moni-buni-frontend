@@ -1,4 +1,4 @@
-import { DollarSign, Plus, ReceiptText, WalletMinimal } from "lucide-react";
+import { DollarSign, Notebook, Plus, WalletMinimal } from "lucide-react";
 import { Link } from "react-router-dom";
 import fullHorizontalLogo from "./../assets/logo/full-ver-white2.svg";
 import SettingsMenu from "./SettingsMenu";
@@ -28,7 +28,6 @@ export const MainNav = () => {
               <p className="text-xs font-medium">Wallets</p>
             </div>
           </Link>
-          <Link to="/">
             <div
               onClick={() => openDialog()}
               className="flex flex-col items-center"
@@ -38,11 +37,10 @@ export const MainNav = () => {
               </div>
               <p className="text-xs font-medium text-center">Add New</p>
             </div>
-          </Link>
           <Link to="/">
             <div className="flex flex-col items-center">
-              <ReceiptText />
-              <p className="text-xs font-medium">Receipts</p>
+            <Notebook />
+              <p className="text-xs font-medium">Budget</p>
             </div>
           </Link>
         </div>

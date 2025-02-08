@@ -36,7 +36,6 @@ const SettingsMenu = () => {
               <DropdownMenuSubContent>
                 <DropdownMenuItem className="cursor-pointer py-3">Categories</DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer py-3">Recurring Transactions</DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer py-3">Budget</DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>

@@ -5,10 +5,26 @@ import { Progress } from "@/components/ui/progress";
 import TransactionGroup from "./TransactionGroup";
 import { Period } from "../types/transaction.types";
 import { filterTransactionsByPeriod, groupTransactionsByPeriod } from "@/utils/dateFilters";
-const TransactionList = ({ userId, period }: { userId: string; period: Period }) => {
+
+
+interface TransactionListProps {
+  userId: string;
+  period: Period;
+  walletId?: string;
+}
+
+
+const TransactionList = ({ userId, period, walletId }: TransactionListProps
+) => {
   const { data: transactions, isLoading, error } = useTransactions(userId);
-  const filteredTransactions = filterTransactionsByPeriod(transactions || [], period);
+
+  const filteredTransactions = filterTransactionsByPeriod(
+    transactions?.filter(t => !walletId || t.wallet === walletId) || [], 
+    period
+  );
+
   const groupedTransactions = groupTransactionsByPeriod(filteredTransactions, period);
+  
   const [progress, setProgress] = useState(13)
 
   useEffect(() => {

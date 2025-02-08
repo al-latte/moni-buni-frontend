@@ -1,12 +1,12 @@
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import {
   categorySchema,
   type CategoryFormValues,
 } from "../schemas/categorySchema";
 import { useCategoryMutations } from "../hooks/useCategory";
 import { useAuth } from "../../auth/hooks/useAuth";
-import { categoryIcons } from "../schemas/categorySchema";
 import {
   Dialog,
   DialogContent,
@@ -18,13 +18,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Form,
   FormField,
   FormItem,
@@ -33,19 +26,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useCategoryDialogStore } from "@/stores/category.store";
+import { useState } from "react";
 
-export const AddCategory = () => {
+const AddCategory = () => {
   const { isDialogOpen, closeDialog } = useCategoryDialogStore();
   const { createCategory } = useCategoryMutations();
   const { user } = useAuth();
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
       title: "",
-      icon: "ShoppingCart",
+      icon: "🛒",
     },
   });
+
+  const onEmojiClick = (
+    emojiData: EmojiClickData, 
+    field: ControllerRenderProps<CategoryFormValues, 'icon'>
+  ) => {
+    field.onChange(emojiData.emoji);
+    setShowEmojiPicker(false);
+  };
 
   const onSubmit = async (data: CategoryFormValues) => {
     try {
@@ -97,23 +100,27 @@ export const AddCategory = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Icon</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="rounded-full">
-                        <SelectValue placeholder="Select icon" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {Object.entries(categoryIcons).map(([name, Icon]) => (
-                        <SelectItem key={name} value={name}>
-                          <div className="flex items-center gap-2">
-                            <Icon className="h-4 w-4" />
-                            <span>{name}</span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="relative">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full rounded-full flex items-center gap-2"
+                      onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                    >
+                      <span className="text-xl">{field.value}</span>
+                      <span>Select Icon</span>
+                    </Button>
+                    
+                    {showEmojiPicker && (
+                      <div className="absolute z-[70] mt-1">
+                        <EmojiPicker
+                          onEmojiClick={(emoji) => onEmojiClick(emoji, field)}
+                          width={300}
+                          height={400}
+                        />
+                      </div>
+                    )}
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
@@ -136,3 +143,5 @@ export const AddCategory = () => {
     </Dialog>
   );
 };
+
+export default AddCategory;

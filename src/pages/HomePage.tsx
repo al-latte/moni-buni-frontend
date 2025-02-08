@@ -1,26 +1,25 @@
-import { MainNav } from "@/components/MainNav"
-import { MobileNav } from "@/components/MobileNav"
-import { PeriodFilterTabs } from "@/components/PeriodFilterTabs"
-import { AddCategory } from "@/features/categories/components/AddCategory"
-import { AddEditTransactionDialog } from "@/features/transactions/components/AddEditTransactionDialog"
-import { AddWallet } from "@/features/wallets/components/AddWallet"
+import { Suspense, lazy } from "react";
+import { PeriodFilterTabs } from "@/components/PeriodFilterTabs";
+import { Layout } from "@/layouts/Layout";
 
+// Lazy load dialogs and complex components
+const AddCategory = lazy(
+  () => import("@/features/categories/components/AddCategory")
+);
+const AddEditTransactionDialog = lazy(
+  () => import("@/features/transactions/components/AddEditTransactionDialog")
+);
+const AddWallet = lazy(() => import("@/features/wallets/components/AddWallet"));
 
 export const HomePage = () => {
   return (
-    <div className="flex flex-col md:flex-row max-w-[1920px] mx-auto">
-        <div className="block md:hidden">
-        <MobileNav />
-        </div>
-        <div className="hidden md:block">
-        <MainNav />
-        </div>
-        <div className="flex-1 md:py-4 md:px-20">
-          <PeriodFilterTabs />
-        </div>
-        <AddEditTransactionDialog/>
-        <AddCategory/>
-        <AddWallet/>
-    </div>
-  )
-}
+    <Layout>
+      <PeriodFilterTabs />
+      <Suspense fallback={null}>
+        <AddEditTransactionDialog />
+        <AddCategory />
+        <AddWallet />
+      </Suspense>
+    </Layout>
+  );
+};

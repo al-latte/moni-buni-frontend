@@ -1,7 +1,7 @@
 import {
   DollarSign,
+  Notebook,
   Plus,
-  ReceiptText,
   WalletMinimal
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -20,7 +20,7 @@ export const MobileNav = () => {
             <p className="text-xs font-medium">Transactions</p>
           </div>
         </Link>
-        <Link to="/">
+        <Link to="/wallets">
           <div className="flex flex-col items-center">
             <WalletMinimal />
             <p className="text-xs font-medium">Wallets</p>
@@ -34,8 +34,8 @@ export const MobileNav = () => {
         </div>
         <Link to="/">
           <div className="flex flex-col items-center">
-            <ReceiptText />
-            <p className="text-xs font-medium">Receipts</p>
+          <Notebook />
+          <p className="text-xs font-medium">Budget</p>
           </div>
         </Link>
         <SettingsMenu />

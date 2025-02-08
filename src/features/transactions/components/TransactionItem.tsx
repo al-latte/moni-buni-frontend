@@ -1,9 +1,7 @@
 import { Transaction } from "../types/transaction.types";
 import { Separator } from "@/components/ui/separator";
 import moment from "moment";
-import { categoryIcons } from "@/features/categories/schemas/categorySchema";
-import { IconName } from "@/features/categories/schemas/categorySchema";
-import { CreditCard, Edit, Ellipsis, Trash } from "lucide-react";
+import { Edit, Ellipsis, Trash } from "lucide-react";
 import { useCategories } from "@/features/categories/hooks/useCategories";
 import {
   DropdownMenu,
@@ -17,6 +15,7 @@ import { useTransactionMutations } from "../hooks/useTransaction";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
 import { useState } from 'react';
+import { formatCurrency } from "@/utils/formatCurrency";
 
 const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
   const { openDialog } = useTransactionDialogStore();
@@ -27,10 +26,6 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
 
   const category =
     categories?.find((c) => c._id === transaction.category) || null;
-
-  const IconComponent = category?.icon
-    ? categoryIcons[category.icon as IconName]
-    : CreditCard;
 
   const handleEdit = () => {
       setIsDropdownOpen(false);
@@ -50,7 +45,7 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
       <div className="py-2 text-sm">
         <div className="flex items-start gap-4 m-3">
           <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-            {IconComponent && <IconComponent className="h-6 w-6" />}
+          <span className="text-2xl">{category?.icon || '🛒'}</span>
           </div>
           <div className="flex-1">
             <p className="text-sm font-semibold">
@@ -68,8 +63,8 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
                   : "text-green-500"
               }`}
             >
-              {transaction.transactionType === "expense" ? "-" : "+"}$
-              {Math.abs(transaction.amount).toFixed(2)}
+              {transaction.transactionType === "expense" ? "-" : "+"}
+              {formatCurrency(transaction.amount)}
             </p>
             <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
               <DropdownMenuTrigger asChild>

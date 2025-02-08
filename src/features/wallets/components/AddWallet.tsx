@@ -15,7 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 
 
-export const AddWallet = () => {
+const AddWallet = () => {
   const { isDialogOpen, closeDialog } = useWalletDialogStore();
   const { createWallet } = useWalletMutations();
   const { user } = useAuth();
@@ -135,3 +135,5 @@ export const AddWallet = () => {
     </Dialog>
   );
 };
+
+export default AddWallet;

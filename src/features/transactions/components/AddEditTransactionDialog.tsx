@@ -50,7 +50,7 @@ import { useCategoryDialogStore } from "@/stores/category.store";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 import { useEffect, useCallback } from "react";
 
-export const AddEditTransactionDialog = () => {
+const AddEditTransactionDialog = () => {
   const { createTransaction, updateTransaction } = useTransactionMutations();
   const { user } = useAuth();
 
@@ -358,3 +358,5 @@ export const AddEditTransactionDialog = () => {
     </Dialog>
   );
 };
+
+export default AddEditTransactionDialog;

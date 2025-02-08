@@ -16,14 +16,13 @@ export const BreakdownDetail = () => {
         open={isOpen}
         onOpenChange={setIsOpen}
         className="w-full space-y-4"
-        // className="md:w-[350px]  space-y-4"
       >
         <div className="flex items-center justify-between space-x-4 px-4 bg-black text-white rounded-full">
           <p className="text-sm font-semibold">
             Details
           </p>
           <CollapsibleTrigger asChild>
-            <Button size="sm">
+            <Button className="bg-transparent">
               <ChevronsUpDown className="h-4 w-4" />
               <span className="sr-only">Toggle</span>
             </Button>
