@@ -13,7 +13,7 @@ const AmountDisplaySkeleton = () => (
 
 export const AmountDisplay = ({ amount, isLoading, label }: AmountDisplayProps) => (
     <p>
-      <span className="font-bold text-3xl">
+      <span className="font-bold text-lg">
         {isLoading ? (
           <AmountDisplaySkeleton />
         ) : (

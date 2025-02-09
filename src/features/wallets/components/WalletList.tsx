@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 
-export const WalletList = () => {
+const WalletList = () => {
   const { user } = useAuth();
   const { data: wallets, isLoading } = useWallets(user?._id);
   const { openDialog } = useWalletDialogStore();
@@ -22,10 +22,14 @@ export const WalletList = () => {
 
   return (
     <div className="flex flex-col space-y-4 mb-44">
-      <Button onClick={() => openDialog()} className="rounded-full md:self-end ">
+      <div className="flex justify-between items-center my-6">
+      <h2 className="text-2xl font-bold">My Wallets</h2>
+      <Button onClick={() => openDialog()} className="rounded-full">
         <Plus className="mr-2 h-4 w-4" />
         Add New Wallet
       </Button>
+      </div>
+      
 
       {!wallets?.length ? (
         <div className="text-center py-8 text-gray-500">
@@ -39,5 +43,7 @@ export const WalletList = () => {
         </div>
       )}
     </div>
-  );
+  ); 
 };
+
+export default WalletList;

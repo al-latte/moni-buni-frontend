@@ -34,7 +34,7 @@ export const walletService = {
 
   update: async (id: string, wallet: Partial<Wallet>): Promise<Wallet> => {
     try {
-      const { data } = await api.put(`/api/wallets/${id}`, wallet);
+      const { data } = await api.put(`/api/wallets/update/${id}`, wallet);
       return data.wallet;
     } catch (error) {
       console.error("Error in update wallet:", error);
@@ -47,7 +47,7 @@ export const walletService = {
 
   delete: async (id: string): Promise<void> => {
     try {
-      await api.delete(`/api/wallets/${id}`);
+      await api.delete(`/api/wallets/delete/${id}`);
     } catch (error) {
       console.error("Error in delete wallet:", error);
       if (error instanceof AxiosError) {

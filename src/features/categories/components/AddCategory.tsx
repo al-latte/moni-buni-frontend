@@ -1,6 +1,6 @@
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import {
   categorySchema,
   type CategoryFormValues,
@@ -26,25 +26,46 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useCategoryDialogStore } from "@/stores/category.store";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 const AddCategory = () => {
-  const { isDialogOpen, closeDialog } = useCategoryDialogStore();
-  const { createCategory } = useCategoryMutations();
+  const { isDialogOpen, category, closeDialog } = useCategoryDialogStore();
+  const { createCategory, updateCategory } = useCategoryMutations();
   const { user } = useAuth();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const isEditing = !!category;
+
+  const defaultValues: CategoryFormValues = {
+    title: "",
+    icon: "🛒",
+  };
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
-    defaultValues: {
-      title: "",
-      icon: "🛒",
-    },
+    defaultValues,
   });
 
+  const resetFormWithCategory = useCallback(() => {
+    if (!category) {
+      form.reset(defaultValues);
+      return;
+    }
+
+    form.reset({
+      title: category.title,
+      icon: category.icon,
+    });
+  }, [category, form]);
+
+  useEffect(() => {
+    if (isDialogOpen) {
+      resetFormWithCategory();
+    }
+  }, [isDialogOpen, resetFormWithCategory]);
+
   const onEmojiClick = (
-    emojiData: EmojiClickData, 
-    field: ControllerRenderProps<CategoryFormValues, 'icon'>
+    emojiData: EmojiClickData,
+    field: ControllerRenderProps<CategoryFormValues, "icon">
   ) => {
     field.onChange(emojiData.emoji);
     setShowEmojiPicker(false);
@@ -56,14 +77,29 @@ const AddCategory = () => {
         console.error("No user ID available");
         return;
       }
-      await createCategory.mutateAsync({
-        ...data,
-        userId: user?._id,
-      });
+
+      if (isEditing && category) {
+        await updateCategory.mutateAsync({
+          id: category._id,
+          category: {
+            ...data,
+            userId: user._id,
+          },
+        });
+      } else {
+        await createCategory.mutateAsync({
+          ...data,
+          userId: user._id,
+        });
+      }
+
       closeDialog();
       form.reset();
     } catch (error) {
-      console.error("Error creating category:", error);
+      console.error(
+        `Error ${isEditing ? "updating" : "creating"} category:`,
+        error
+      );
     }
   };
 
@@ -73,9 +109,11 @@ const AddCategory = () => {
     <Dialog open={isDialogOpen} onOpenChange={(open) => !open && closeDialog()}>
       <DialogContent className="sm:max-w-[425px] z-[60]">
         <DialogHeader>
-          <DialogTitle>Add Category</DialogTitle>
+          <DialogTitle>{isEditing ? "Edit" : "Add"} Category</DialogTitle>
           <DialogDescription>
-            Create a new category for your transactions
+            {isEditing
+              ? "Update your category details"
+              : "Create a new category for your transactions"}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -110,7 +148,7 @@ const AddCategory = () => {
                       <span className="text-xl">{field.value}</span>
                       <span>Select Icon</span>
                     </Button>
-                    
+
                     {showEmojiPicker && (
                       <div className="absolute z-[70] mt-1">
                         <EmojiPicker
@@ -133,7 +171,11 @@ const AddCategory = () => {
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting
-                  ? "Creating..."
+                  ? isEditing
+                    ? "Updating..."
+                    : "Creating..."
+                  : isEditing
+                  ? "Update category"
                   : "Create category"}
               </Button>
             </DialogFooter>

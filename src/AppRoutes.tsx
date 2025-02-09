@@ -4,6 +4,7 @@ import { SignupPage } from "./pages/SignupPage";
 import { HomePage } from "./pages/HomePage";
 import { ProtectedRoute } from "./services/ProtectedRoute";
 import { WalletPage } from "./pages/WalletPage";
+import { CategorySettingsPage } from "./pages/CategorySettingsPage";
 
 export const AppRoutes = () => {
   return (
@@ -14,6 +15,7 @@ export const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/wallets" element={<WalletPage />} />
+        <Route path="/settings/categories" element={<CategorySettingsPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/signup" replace />} />

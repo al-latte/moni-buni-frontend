@@ -1,9 +1,13 @@
 import { Settings, LogOut } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { useLogout } from "@/features/auth/hooks/useLogout";
+import { useNavigate } from "react-router-dom";
 
 const SettingsMenu = () => {
     const { mutate: logout } = useLogout();
+    const navigate = useNavigate();
+
+
     const handleLogout = () => {
         try {
           logout();
@@ -34,7 +38,7 @@ const SettingsMenu = () => {
               <DropdownMenuSubTrigger className="cursor-pointer py-3">Manage</DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuItem className="cursor-pointer py-3">Categories</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer py-3" onClick={() => navigate("/settings/categories")}>Categories</DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer py-3">Recurring Transactions</DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>

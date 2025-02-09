@@ -42,7 +42,7 @@ export const categoryService = {
     category: Partial<Category>
   ): Promise<Category> => {
     try {
-      const { data } = await api.put(`/api/categories/${id}`, category);
+      const { data } = await api.put(`/api/categories/update/${id}`, category);
       return data.category;
     } catch (error) {
       console.error("Error in update category:", error);
