@@ -10,7 +10,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 60 * 1000,
-      retry: 1,
+      retry: 3,
     },
   },
 })
@@ -25,3 +25,15 @@ createRoot(document.getElementById('root')!).render(
     </QueryClientProvider>
   </StrictMode>,
 )
+
+// Register service worker for offline capabilities
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then((registration) =>
+        console.log("Service Worker registered with scope:", registration.scope)
+      )
+      .catch((error) => console.error("Service Worker registration failed:", error));
+  });
+}
