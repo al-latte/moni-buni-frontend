@@ -3,14 +3,24 @@
   "name": "MONI BUNI",
   "icons": [
     {
+      "src": "/icons/solo-buni-144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/icons/solo-buni-165.png",
+      "type": "image/png",
+      "sizes": "165x165"
+    },
+    {
       "src": "/icons/solo-buni-192.png",
       "type": "image/png",
-      "sizes": "192x96"
+      "sizes": "192x192"
     },
     {
       "src": "/icons/solo-buni-512.png",
       "type": "image/png",
-      "sizes": "512x256"
+      "sizes": "512x512"
     }
   ],
   "start_url": "/",
