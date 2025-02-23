@@ -34,7 +34,7 @@ export const PeriodFilterTabs = ({
       >
         <TabsList className="grid w-full grid-cols-4 rounded-full bg-white border-2 border-black h-10 p-0 lg:w-[650px] md:ml-auto md:mr-0">
           {PERIOD_OPTIONS.map((option) => (
-            <PeriodTabTrigger key={option.value} value={option.value}>
+            <PeriodTabTrigger key={option.value} value={option.value} >
               {option.label}
             </PeriodTabTrigger>
           ))}

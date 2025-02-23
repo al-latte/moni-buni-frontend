@@ -16,8 +16,14 @@ import { useBudgetMutations } from "../hooks/useBudget";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 
-export const BudgetItem = ({ budget }: { budget: Budget }) => {
+interface BudgetItemProps {
+  budget: Budget;
+  custom: number;
+}
+
+export const BudgetItem = ({ budget, custom } :BudgetItemProps) => {
   const startDate = new Date(budget.startDate);
   const endDate = new Date(budget.endDate);
 
@@ -44,6 +50,12 @@ export const BudgetItem = ({ budget }: { budget: Budget }) => {
   };
 
   return (
+    <motion.div 
+      initial={{ opacity: 0, x: -20 }} 
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ type: "spring", duration: 0.5, ease: "easeOut", delay: custom * 0.2 }}
+      className="py-2 text-sm">
+
     <Card className={cn(
         "transition-shadow",
         !budget.isActive ? "opacity-50 cursor-not-allowed" : "hover:shadow-md"
@@ -147,5 +159,6 @@ export const BudgetItem = ({ budget }: { budget: Budget }) => {
         </div>
       </CardContent>
     </Card>
+    </motion.div>
   );
 };

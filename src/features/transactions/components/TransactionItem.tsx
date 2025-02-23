@@ -16,8 +16,14 @@ import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
 import { useState } from 'react';
 import { formatCurrency } from "@/utils/formatCurrency";
+import { motion } from "motion/react"
 
-const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
+interface TransactionItemProps {
+  transaction: Transaction;
+  custom: number;
+}
+
+const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
   const { openDialog } = useTransactionDialogStore();
   const { deleteTransaction } = useTransactionMutations();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -41,8 +47,12 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
   };
 
   return (
-    <>
-      <div className="py-2 text-sm">
+      <motion.div 
+      initial={{ opacity: 0, x: -20 }} 
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ type: "spring", duration: 0.5, ease: "easeOut", delay: custom * 0.2 }}
+      className="py-2 text-sm">
+
         <div className="flex items-start gap-4 m-3">
           <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
           <span className="text-2xl">{category?.icon || '🛒'}</span>
@@ -99,8 +109,7 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
           </div>
         </div>
         <Separator />
-      </div>
-    </>
+      </motion.div>
   );
 };
 

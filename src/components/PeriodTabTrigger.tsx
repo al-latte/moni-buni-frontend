@@ -1,6 +1,7 @@
 import { Period } from "@/features/transactions/types/transaction.types";
 import { TabsTrigger } from "@/components/ui/tabs";
 import { ReactNode } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 interface PeriodTabTriggerProps {
   value: Period;

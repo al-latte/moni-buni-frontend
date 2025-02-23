@@ -38,8 +38,8 @@ export const CategoryList = () => {
         </div>
       ) : (
         <div className="grid gap-4">
-          {categories.map((category) => (
-            <CategoryItem key={category._id} category={category} />
+          {categories.map((category, index) => (
+            <CategoryItem key={category._id} category={category} custom={index} />
           ))}
         </div>
       )}

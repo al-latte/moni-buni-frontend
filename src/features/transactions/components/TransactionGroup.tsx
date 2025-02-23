@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import TransactionItem from "./TransactionItem";
 import { type TransactionGroup } from "../types/transaction.types";
+import { AnimatePresence, motion } from "motion/react";
 
 const TransactionGroup = ({ date, transactions }: TransactionGroup) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -24,11 +25,26 @@ const TransactionGroup = ({ date, transactions }: TransactionGroup) => {
             </Button>
           </CollapsibleTrigger>
         </div>
-        <CollapsibleContent className="space-y-2">
-          {transactions.map((transaction) => (
-            <TransactionItem key={transaction._id} transaction={transaction} />
-          ))}
-        </CollapsibleContent>
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <CollapsibleContent className="space-y-2">
+                {transactions.map((transaction, index) => (
+                  <TransactionItem
+                    key={transaction._id}
+                    transaction={transaction}
+                    custom={index}
+                  />
+                ))}
+              </CollapsibleContent>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Collapsible>
     </div>
   );

@@ -13,12 +13,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useCategoryMutations } from "../hooks/useCategory";
+import { motion } from "motion/react";
 
 interface CategoryItemProps {
   category: Category;
+  custom: number;
 }
 
-export const CategoryItem = ({ category }: CategoryItemProps) => {
+export const CategoryItem = ({ category, custom }: CategoryItemProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { openDialog } = useCategoryDialogStore();
   const { deleteCategory } = useCategoryMutations();
@@ -37,6 +39,12 @@ export const CategoryItem = ({ category }: CategoryItemProps) => {
   };
 
   return (
+    <motion.div 
+    initial={{ opacity: 0, x: -20 }} 
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ type: "spring", duration: 0.5, ease: "easeOut", delay: custom * 0.2 }}
+    className="py-2 text-sm">
+
     <Card className="p-4 rounded-xl hover:shadow-md transition-all">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -75,5 +83,6 @@ export const CategoryItem = ({ category }: CategoryItemProps) => {
         </DropdownMenu>
       </div>
     </Card>
+    </motion.div>
   );
 };
