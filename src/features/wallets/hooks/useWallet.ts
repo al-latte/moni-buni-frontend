@@ -1,64 +1,38 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { walletService } from '@/services/walletService';
-import { Wallet } from '../types/wallet.types';
-import { useToast } from '@/hooks/use-toast';
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { walletService } from "@/services/walletService";
+import { Wallet } from "../types/wallet.types";
+import { useMutationHandlers } from "@/utils/mutationHandlers";
 
 export const useWalletMutations = () => {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
+  const { handleSuccess, handleError } = useMutationHandlers(queryClient);
 
   const createWallet = useMutation({
-    mutationFn: (wallet: Omit<Wallet, "_id">) => 
-      walletService.create(wallet),
+    mutationFn: (wallet: Omit<Wallet, "_id">) => walletService.create(wallet),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['wallets'] });
-      toast({
-        description: "Wallet created successfully",
-        variant: "success",
-      });
+      queryClient.invalidateQueries({ queryKey: ["wallets"] });
+      handleSuccess("Wallet created successfully");
     },
-    onError: (error: Error) => {
-      toast({
-        description: error.message,
-        variant: "destructive",
-      });
-    },
+    onError: handleError,
   });
 
   const updateWallet = useMutation({
     mutationFn: ({ id, wallet }: { id: string; wallet: Partial<Wallet> }) =>
       walletService.update(id, wallet),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['wallets'] });
-      toast({
-        description: "Wallet updated successfully",
-        variant: "success",
-      });
+      queryClient.invalidateQueries({ queryKey: ["wallets"] });
+      handleSuccess("Wallet updated successfully");
     },
-    onError: (error: Error) => {
-      toast({
-        description: error.message,
-        variant: "destructive",
-      });
-    },
+    onError: handleError,
   });
 
   const deleteWallet = useMutation({
     mutationFn: (id: string) => walletService.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['wallets'] });
-      toast({
-        description: "Wallet deleted successfully",
-        variant: "success",
-      });
+      queryClient.invalidateQueries({ queryKey: ["wallets"] });
+      handleSuccess("Wallet deleted successfully");
     },
-    onError: (error: Error) => {
-      toast({
-        description: error.message,
-        variant: "destructive",
-      });
-    },
+    onError: handleError,
   });
 
   return {

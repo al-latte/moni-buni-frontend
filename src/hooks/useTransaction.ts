@@ -33,6 +33,6 @@ export const useTransaction = (userId: string | undefined) => {
         return [] as Transaction[];
       }
     },
-    enabled: !!userId, // Only run query if userId exists
+    enabled: !!userId, 
   });
 };

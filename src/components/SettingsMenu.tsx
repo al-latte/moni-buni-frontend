@@ -31,7 +31,7 @@ const SettingsMenu = () => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup className="mb-10">
-              <DropdownMenuItem className="cursor-pointer py-3">
+              <DropdownMenuItem className="cursor-pointer py-3" onClick={() => navigate("/settings/user-profile")}>
                 User Profile
               </DropdownMenuItem>
               <DropdownMenuSub>

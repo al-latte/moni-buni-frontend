@@ -1,28 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
 import { categoryService } from "../../../services/categoryService";
 import { Category } from "../types/category.types";
+import { useMutationHandlers } from "@/utils/mutationHandlers";
 
 export const useCategoryMutations = () => {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
+  const { handleSuccess, handleError } = useMutationHandlers(queryClient);
 
   const createCategory = useMutation({
     mutationFn: (category: Omit<Category, "_id">) =>
       categoryService.create(category),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-      toast({
-        description: "Category created successfully",
-        variant: "success",
-      });
+      handleSuccess("Category created successfully");
     },
-    onError: (error: Error) => {
-      toast({
-        description: error.message,
-        variant: "destructive",
-      });
-    },
+    onError: handleError,
   });
 
   const updateCategory = useMutation({
@@ -35,34 +27,18 @@ export const useCategoryMutations = () => {
     }) => categoryService.update(id, category),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-      toast({
-        description: "Category updated successfully",
-        variant: "success",
-      });
+      handleSuccess("Category updated successfully");
     },
-    onError: (error: Error) => {
-      toast({
-        description: error.message,
-        variant: "destructive",
-      });
-    },
+    onError: handleError,
   });
 
   const deleteCategory = useMutation({
     mutationFn: (id: string) => categoryService.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-      toast({
-        description: "Category deleted successfully",
-        variant: "success",
-      });
+      handleSuccess("Category deleted successfully");
     },
-    onError: (error: Error) => {
-      toast({
-        description: error.message,
-        variant: "destructive",
-      });
-    },
+    onError: handleError,
   });
 
   return {

@@ -11,5 +11,7 @@ export const useTransactions = (userId: string | undefined) => {
       return transactions;
     },
     enabled: !!userId,
+    staleTime: 1000 * 60 * 5, 
+    gcTime: 1000 * 60 * 10,
   });
 };

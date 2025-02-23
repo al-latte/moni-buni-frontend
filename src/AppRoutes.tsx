@@ -6,6 +6,7 @@ import { ProtectedRoute } from "./services/ProtectedRoute";
 import { WalletPage } from "./pages/WalletPage";
 import { BudgetPage } from "./pages/BudgetPage";
 import { CategorySettingsPage } from "./pages/CategorySettingsPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 export const AppRoutes = () => {
   return (
@@ -18,6 +19,7 @@ export const AppRoutes = () => {
         <Route path="/wallets" element={<WalletPage />} />
         <Route path="/settings/categories" element={<CategorySettingsPage />} />
         <Route path="/budgets" element={<BudgetPage />} />
+        <Route path="/settings/user-profile" element={<UserProfilePage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/signup" replace />} />

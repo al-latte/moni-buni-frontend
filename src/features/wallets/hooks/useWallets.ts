@@ -10,5 +10,7 @@ export const useWallets = (userId: string | undefined) => {
       return walletService.getAll(userId);
     },
     enabled: !!userId,
+    staleTime: 1000 * 60 * 5, 
+    gcTime: 1000 * 60 * 10,
   });
 };
