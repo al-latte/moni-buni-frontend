@@ -6,13 +6,11 @@ import TransactionGroup from "./TransactionGroup";
 import { Period } from "../types/transaction.types";
 import { filterTransactionsByPeriod, groupTransactionsByPeriod } from "@/utils/dateFilters";
 
-
 interface TransactionListProps {
   userId: string;
   period: Period;
   walletId?: string;
 }
-
 
 const TransactionList = ({ userId, period, walletId }: TransactionListProps
 ) => {

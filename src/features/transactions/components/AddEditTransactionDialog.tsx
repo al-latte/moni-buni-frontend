@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -26,7 +25,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -67,7 +65,7 @@ const AddEditTransactionDialog = () => {
     amount: 0,
     category: "",
     description: "",
-    transactionType: "expense" as const,
+    transactionType: "expense",
     date: new Date(),
     wallet: "",
   };
@@ -87,7 +85,7 @@ const AddEditTransactionDialog = () => {
       amount: transaction.amount,
       category: transaction.category,
       description: transaction.description,
-      transactionType: transaction.transactionType,
+      transactionType: transaction.transactionType as "expense" | "income",
       date: new Date(transaction.date),
       wallet: transaction.wallet,
     });
@@ -128,7 +126,7 @@ const AddEditTransactionDialog = () => {
       <DialogContent className="sm:max-w-[425px] md:h-auto h-full max-h-screen overflow-auto">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Edit Transaction" : "Add Transaction"}
+            {isEditing ? "Edit": "Add"} Transaction
           </DialogTitle>
           <DialogDescription>
             {isEditing ? "Edit your transaction" : "Track your new transaction"}
@@ -141,40 +139,17 @@ const AddEditTransactionDialog = () => {
               name="transactionType"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Transaction Type</FormLabel>
                   <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-row items-center justify-center gap-4 m-3"
-                    >
-                      <div>
-                        <RadioGroupItem
-                          value="expense"
-                          id="expense"
-                          className="peer sr-only"
-                        />
-                        <Label
-                          htmlFor="expense"
-                          className="cursor-pointer flex items-center justify-center gap-2 rounded-full border-2 border-black bg-popover py-3 px-6 peer-data-[state=checked]:bg-black peer-data-[state=checked]:text-white"
-                        >
-                          Expense
-                        </Label>
-                      </div>
-
-                      <div>
-                        <RadioGroupItem
-                          value="income"
-                          id="income"
-                          className="peer sr-only"
-                        />
-                        <Label
-                          htmlFor="income"
-                          className="cursor-pointer flex items-center justify-center gap-2 rounded-full border-2 border-black bg-popover py-3 px-6 peer-data-[state=checked]:bg-black peer-data-[state=checked]:text-white"
-                        >
-                          Income
-                        </Label>
-                      </div>
-                    </RadioGroup>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="rounded-full">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="expense">Expense</SelectItem>
+                        <SelectItem value="income">Income</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -267,7 +242,7 @@ const AddEditTransactionDialog = () => {
                       </FormControl>
                     </PopoverTrigger>
                     <Portal>
-                      <PopoverContent className="z-[9999] bg-background p-0 w-full">
+                      <PopoverContent className="z-[9999] bg-background p-0 w-full" align="start">
                         <div
                           className="p-0"
                           onClick={(e) => e.stopPropagation()}

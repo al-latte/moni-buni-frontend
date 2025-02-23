@@ -24,9 +24,9 @@ export const useCategoryDialogStore = create<CategoryDialogState>((set) => ({
   closeDialog: () =>
     set((state) => {
       if (!state.isDialogOpen) return state;
-      
-      document.body.style.pointerEvents = 'auto';
-      
+
+      document.body.style.pointerEvents = "auto";
+
       return {
         isDialogOpen: false,
         category: null,

@@ -12,6 +12,6 @@ export const ExpenseHeader = ({ total, isLoading }: ExpenseHeaderProps) => (
       isLoading={isLoading}
       label="Total Expenses"
     />
-    <AmountDisplay amount={0} isLoading={false} label="Left in budget" />
+    {/* <AmountDisplay amount={0} isLoading={false} label="Left in budget" /> */}
   </div>
 );

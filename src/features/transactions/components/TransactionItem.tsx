@@ -68,7 +68,9 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
             </p>
             <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
               <DropdownMenuTrigger asChild>
-                <Ellipsis />
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                <Ellipsis className="h-4 w-4" />
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="px-3 mx-2 bg-white shadow-md border rounded">
                 <DropdownMenuGroup>

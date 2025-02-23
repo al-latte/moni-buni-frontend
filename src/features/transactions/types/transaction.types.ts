@@ -5,7 +5,7 @@ export interface Transaction {
   description?: string;
   transactionType: "income" | "expense";
   date: Date;
-  wallet: string;
+  wallet?: string;
   userId: string;
 }
 

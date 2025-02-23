@@ -28,9 +28,9 @@ export const useWalletDialogStore = create<WalletDialogState>((set) => ({
   closeDialog: () =>
     set((state) => {
       if (!state.isDialogOpen) return state;
-      
-      document.body.style.pointerEvents = 'auto';
-      
+
+      document.body.style.pointerEvents = "auto";
+
       return {
         ...state,
         isDialogOpen: false,

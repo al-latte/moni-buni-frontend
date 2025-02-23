@@ -32,7 +32,7 @@ export const MobileNav = () => {
         >
           <Plus />
         </div>
-        <Link to="/">
+        <Link to="/budgets">
           <div className="flex flex-col items-center">
           <Notebook />
           <p className="text-xs font-medium">Budget</p>

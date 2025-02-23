@@ -4,7 +4,7 @@ import { Edit, Ellipsis, Trash, WalletCards } from "lucide-react";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 import { PeriodFilterTabs } from "@/components/PeriodFilterTabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useWalletMutations } from "../hooks/useWallet";
@@ -45,7 +45,7 @@ const handleDelete = async () => {
       setSelectedWallet(wallet)
     }
       }}>
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center">
             <WalletCards className="text-white h-6 w-6" />
@@ -61,32 +61,28 @@ const handleDelete = async () => {
         </div>
         <div className="flex flex-col items-end">
           <p className="font-bold text-lg">{formatCurrency(wallet.balance)}</p>
-          <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+          <DropdownMenu
+              open={isDropdownOpen}
+              onOpenChange={setIsDropdownOpen}
+            >
               <DropdownMenuTrigger asChild>
-                <Ellipsis />
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <Ellipsis className="h-4 w-4" />
+                </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="px-3 mx-2 bg-white shadow-md border rounded">
-                <DropdownMenuGroup>
-                  <DropdownMenuItem className="cursor-pointer py-3">
-                    <Button
-                      onClick={handleEdit}
-                      className="rounded-full w-full"
-                    >
-                      <Edit className="h-4 w-4" />
-                      Edit
-                    </Button>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer py-3">
-                    <Button
-                      onClick={handleDelete}
-                      className="rounded-full w-full bg-red-600"
-                    >
-                      <Trash className="h-4 w-4" />
-                      Delete
-                    </Button>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={handleEdit}>
+                  <Edit className="mr-2 h-4 w-4" />
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="text-red-600"
+                  onClick={handleDelete}
+                >
+                  <Trash className="mr-2 h-4 w-4" />
+                  Delete
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
         </div>

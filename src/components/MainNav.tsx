@@ -37,7 +37,7 @@ export const MainNav = () => {
               </div>
               <p className="text-xs font-medium text-center">Add New</p>
             </div>
-          <Link to="/">
+          <Link to="/budgets">
             <div className="flex flex-col items-center">
             <Notebook />
               <p className="text-xs font-medium">Budget</p>

@@ -25,10 +25,18 @@ export const transactionService = {
     transaction: Omit<Transaction, "_id">
   ): Promise<Transaction> => {
     try {
-      const { data } = await api.post("/api/transactions/add", transaction);
+      // Create transaction and update wallet/budget in a single API call
+      const { data } = await api.post("/api/transactions/add", transaction)
+
       return data.transaction;
     } catch (error) {
       if (error instanceof AxiosError) {
+        if (
+          error.response?.status === 400 &&
+          error.response?.data?.message?.includes("insufficient")
+        ) {
+          throw new Error("Insufficient funds in wallet");
+        }
         console.error("Create transaction error:", error);
         throw new Error(
           error.response?.data?.message || "Failed to create transaction"
