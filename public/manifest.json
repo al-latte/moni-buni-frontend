@@ -23,6 +23,22 @@
       "sizes": "512x512"
     }
   ],
+  "screenshots": [
+  {
+    "src": "screenshots/mobile-home.png",
+    "sizes": "403x873",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "Home screen showing main navigation and featured content"
+  },
+  {
+    "src": "screenshots/desktop-home.png",
+    "sizes": "1899x986",
+    "type": "image/png",
+    "form_factor": "wide",
+    "label": "Home screen showing main navigation and featured content"
+  }
+],
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
