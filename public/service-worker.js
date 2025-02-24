@@ -1,5 +1,5 @@
 const CACHE_NAME = "moni-buni-cache-v1";
-const URLS_TO_CACHE = ["/", "/index.html", "/manifest.json", "/icons/solo-buni.png"];
+const URLS_TO_CACHE = ["/", "/index.html", "/manifest.json", "/icons/launchericon-192-192.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

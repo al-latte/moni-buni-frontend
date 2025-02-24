@@ -13,7 +13,7 @@ export const MobileNav = () => {
 
   return (
     <>
-      <div className="fixed bottom-0 flex justify-between items-center w-full h-16 bg-white shadow-md px-4 z-50 border-t border-gray-200">
+      <div className="fixed bottom-0 flex justify-between items-center w-full h-16 bg-white shadow-md px-4 py-4 z-50 border-t border-gray-200">
         <Link to="/">
           <div className="flex flex-col items-center">
             <DollarSign />
