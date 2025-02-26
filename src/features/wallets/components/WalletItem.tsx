@@ -18,9 +18,10 @@ import { AnimatePresence, motion } from "motion/react";
 
 interface WalletItemProps {
   wallet: Wallet;
+  custom: number;
 }
 
-export const WalletItem = ({ wallet }: WalletItemProps) => {
+export const WalletItem = ({ wallet, custom }: WalletItemProps) => {
   const { selectedWallet, setSelectedWallet } = useWalletDialogStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isSelected = selectedWallet?._id === wallet._id;
@@ -42,7 +43,11 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
   };
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ type: "spring", duration: 0.5, ease: "easeOut", delay: custom * 0.2 }}
+      >
       <Card
         className={`p-6 rounded-xl hover:shadow-md transition-all cursor-pointer ${
           isSelected ? "bg-black text-white" : ""
@@ -119,6 +124,6 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </motion.div>
   );
 };

@@ -45,7 +45,6 @@ export const BudgetList = () => {
         <Button
           onClick={() => openDialog()}
           className="rounded-full"
-          variant="outline"
         >
           <Plus className="h-4 w-4 mr-2" />
           New Budget

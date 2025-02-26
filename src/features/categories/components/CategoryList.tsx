@@ -37,7 +37,7 @@ export const CategoryList = () => {
           No categories found. Create your first category to get started.
         </div>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
           {categories.map((category, index) => (
             <CategoryItem key={category._id} category={category} custom={index} />
           ))}

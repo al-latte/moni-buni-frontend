@@ -1,11 +1,5 @@
-import {
-  DollarSign,
-  Notebook,
-  Plus,
-  WalletMinimal
-} from "lucide-react";
-import { Link } from "react-router-dom";
-import SettingsMenu from "./SettingsMenu";
+import { CircleUser, DollarSign, Notebook, Plus, WalletMinimal } from "lucide-react";
+import { NavLink } from "react-router-dom";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
 
 export const MobileNav = () => {
@@ -13,33 +7,66 @@ export const MobileNav = () => {
 
   return (
     <>
-      <div className="fixed bottom-0 flex justify-between items-center w-full h-16 bg-white shadow-md px-4 py-4 z-50 border-t border-gray-200">
-        <Link to="/">
-          <div className="flex flex-col items-center">
-            <DollarSign />
-            <p className="text-xs font-medium">Transactions</p>
-          </div>
-        </Link>
-        <Link to="/wallets">
-          <div className="flex flex-col items-center">
-            <WalletMinimal />
-            <p className="text-xs font-medium">Wallets</p>
-          </div>
-        </Link>
+      <div className="fixed bottom-0 flex justify-between items-start w-full h-24 bg-white shadow-md px-4 pt-2 z-50 border-t border-gray-200">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `flex flex-col items-center ${isActive ? "" : "text-gray-400"}`
+          }
+        >
+          {({ isActive }) => (
+            <>
+              <DollarSign color={isActive ? "#000000" : "#9ca3af"} />
+              <p className="text-xs font-medium">Transactions</p>
+            </>
+          )}
+        </NavLink>
+        <NavLink
+          to="/wallets"
+          className={({ isActive }) =>
+            `flex flex-col items-center ${isActive ? "active-class" : "text-gray-400"}`
+          }
+        >
+          {({ isActive }) => (
+            <>
+              <WalletMinimal color={isActive ? "#000000" : "#9ca3af"} />
+              <p className="text-xs font-medium">Wallets</p>
+            </>
+          )}
+        </NavLink>
         <div
           onClick={() => openDialog()}
           className="bg-black text-white rounded-full p-3 cursor-pointer"
         >
           <Plus />
         </div>
-        <Link to="/budgets">
-          <div className="flex flex-col items-center">
-          <Notebook />
-          <p className="text-xs font-medium">Budget</p>
-          </div>
-        </Link>
-        <SettingsMenu />
-      </div>  
+        <NavLink
+          to="/budgets"
+          className={({ isActive }) =>
+            `flex flex-col items-center ${isActive ? "active-class" : "text-gray-400"}`
+          }
+        >
+          {({ isActive }) => (
+            <>
+              <Notebook color={isActive ? "#000000" : "#9ca3af"} />
+              <p className="text-xs font-medium">Budget</p>
+            </>
+          )}
+        </NavLink>
+        <NavLink
+          to="/account-settings"
+          className={({ isActive }) =>
+            `flex flex-col items-center ${isActive ? "active-class" : "text-gray-400"}`
+          }
+        >
+          {({ isActive }) => (
+            <>
+              <CircleUser color={isActive ? "#000000" : "#9ca3af"} />
+              <p className="text-xs font-medium">Account</p>
+            </>
+          )}
+        </NavLink>
+      </div>
     </>
   );
 };

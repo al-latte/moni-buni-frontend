@@ -148,16 +148,14 @@ const AddCategory = () => {
                       <span className="text-xl">{field.value}</span>
                       <span>Select Icon</span>
                     </Button>
-
-                    {showEmojiPicker && (
-                      <div className="absolute z-[70] mt-1">
+                    <div className="absolute z-[70] left-1/2 transform -translate-x-1/2 -bottom-32">
                         <EmojiPicker
+                        open={showEmojiPicker}
                           onEmojiClick={(emoji) => onEmojiClick(emoji, field)}
                           width={300}
                           height={400}
                         />
                       </div>
-                    )}
                   </div>
                   <FormMessage />
                 </FormItem>

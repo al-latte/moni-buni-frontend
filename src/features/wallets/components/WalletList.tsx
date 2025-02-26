@@ -22,11 +22,11 @@ const WalletList = () => {
 
   return (
     <div className="flex flex-col space-y-4 mb-44">
-      <div className="flex justify-between items-center my-6">
-      <h2 className="text-2xl font-bold">My Wallets</h2>
+      <div className="flex justify-between items-center md:my-6">
+      <h2 className="text-2xl font-bold">Wallets</h2>
       <Button onClick={() => openDialog()} className="rounded-full">
         <Plus className="mr-2 h-4 w-4" />
-        Add New Wallet
+        New Wallet
       </Button>
       </div>
       
@@ -37,8 +37,8 @@ const WalletList = () => {
         </div>
       ) : (
         <div className="grid gap-4">
-          {wallets.map((wallet) => (
-            <WalletItem key={wallet._id} wallet={wallet} />
+          {wallets.map((wallet, index) => (
+            <WalletItem key={wallet._id} wallet={wallet} custom={index}/>
           ))}
         </div>
       )}

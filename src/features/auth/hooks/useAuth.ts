@@ -1,31 +1,21 @@
-import { useState, useEffect } from 'react';
-import { AuthResponse, User } from '../types/auth.types';
+import { useEffect } from "react";
+import { useUserStore } from "@/stores/user.store";
 
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, isLoading, setUser, login, logout } = useUserStore();
 
+  // Initialize loading state (optional if using persist middleware)
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (isLoading) {
+      useUserStore.setState({ isLoading: false });
     }
-    setIsLoading(false);
-  }, []);
+  }, [isLoading]);
 
-  const login = (data: AuthResponse) => {
-    const userWithToken = {
-      ...data.user,
-      token: data.token
-    };
-    localStorage.setItem('user', JSON.stringify(userWithToken));
-    setUser(userWithToken);
+  return {
+    user,
+    isLoading,
+    setUser,
+    login,
+    logout,
   };
-
-  const logout = () => {
-    localStorage.removeItem('user');
-    setUser(null);
-  };
-
-  return { user, isLoading, login, logout };
 };
