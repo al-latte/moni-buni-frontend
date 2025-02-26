@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useUserStore } from "@/stores/user.store";
 
 export const useAuth = () => {
-  const { user, isLoading, setUser, login, logout } = useUserStore();
+  const { user, isLoading, setUser, login, logout, openDialog, closeDialog, isDialogOpen } = useUserStore();
 
-  // Initialize loading state (optional if using persist middleware)
+  // Initialize loading state if needed
   useEffect(() => {
     if (isLoading) {
       useUserStore.setState({ isLoading: false });
@@ -17,5 +17,8 @@ export const useAuth = () => {
     setUser,
     login,
     logout,
+    openDialog,
+    closeDialog,
+    isDialogOpen,
   };
 };

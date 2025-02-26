@@ -4,13 +4,16 @@ import TransactionList from "../features/transactions/components/TransactionList
 import { useTotalExpenses } from "@/features/transactions/hooks/useTotalExpenses";
 import { usePeriodStore } from "@/stores/period.store";
 import { ExpenseHeader } from "./ExpenseHeader";
+import { useAuth } from '@/features/auth/hooks/useAuth';
 
 const Chart = lazy(() => import("./Chart"))
 
 export const TabContentLayout = () => {
   const { selectedPeriod } = usePeriodStore();
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const { user } = useAuth();
   const { total, isLoading } = useTotalExpenses(user?._id, selectedPeriod); 
+
+  if (!user) return null;
 
   return (
     <>

@@ -17,12 +17,10 @@ type UserState = {
 export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
-      // Initial state
       user: null,
       isLoading: true,
       isDialogOpen: false,
 
-      // User state actions
       setUser: (userData) =>
         set((state) => {
           if (!userData) {
@@ -33,7 +31,6 @@ export const useUserStore = create<UserState>()(
             ? {
                 ...state.user,
                 ...userData,
-                // Preserve token if not in the new data
                 token: userData.token || state.user.token,
               }
             : userData;
@@ -61,7 +58,6 @@ export const useUserStore = create<UserState>()(
 
           return {
             isDialogOpen: true,
-            // If user is provided, use it as the dialog user, otherwise use current user
             user: user ?? state.user,
           };
         }),
@@ -78,8 +74,8 @@ export const useUserStore = create<UserState>()(
         }),
     }),
     {
-      name: "user-storage", // unique name for localStorage
-      partialize: (state) => ({ user: state.user }), // only persist user data
+      name: "user-storage",
+      partialize: (state) => ({ user: state.user }),
     }
   )
 );

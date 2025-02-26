@@ -5,18 +5,21 @@ import { useTotalExpenses } from "@/features/transactions/hooks/useTotalExpenses
 import { usePeriodStore } from "@/stores/period.store";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 import { ExpenseHeader } from "./ExpenseHeader";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 const Chart = lazy(() => import("./Chart"));
 
 export const WalletTabContentLayout = () => {
   const { selectedPeriod } = usePeriodStore();
   const { selectedWallet } = useWalletDialogStore();
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const { user } = useAuth();
   const { total, isLoading } = useTotalExpenses(
     user?._id,
     selectedPeriod,
     selectedWallet?._id
   );
+
+  if (!user) return null;
 
   if (!selectedWallet) {
     return (
