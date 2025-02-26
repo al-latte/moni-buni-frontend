@@ -26,14 +26,20 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>,
 )
 
-// Register service worker for offline capabilities
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/service-worker.js")
-      .then((registration) =>
-        console.log("Service Worker registered with scope:", registration.scope)
-      )
-      .catch((error) => console.error("Service Worker registration failed:", error));
+  window.addEventListener("load", async () => {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for (const registration of registrations) {
+        await registration.unregister();
+        console.log("Unregistered old service worker");
+      }
+      
+      // Register the new service worker
+      const registration = await navigator.serviceWorker.register("/service-worker.js");
+      console.log("Service Worker registered with scope:", registration.scope);
+    } catch (error) {
+      console.error("Service Worker registration failed:", error);
+    }
   });
 }
