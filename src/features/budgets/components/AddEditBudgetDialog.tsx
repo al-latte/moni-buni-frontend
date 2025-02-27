@@ -239,7 +239,7 @@ const AddEditBudgetDialog = () => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={(open) => !open && closeDialog()}>
-      <DialogContent className="sm:max-w-[425px] md:h-auto h-full max-h-screen overflow-auto">
+      <DialogContent className="sm:max-w-[425px] md:h-auto max-h-screen overflow-auto">
         <DialogHeader>
           <DialogTitle>{isEditing ? "Edit" : "Create"} Budget</DialogTitle>
           <DialogDescription>

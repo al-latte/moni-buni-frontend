@@ -3,11 +3,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { useLogout } from "@/features/auth/hooks/useLogout";
 import { useAccountDialog } from '@/features/userAccount/hooks/useAccountDialog'; 
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useState } from "react";
 
 const SettingsMenu = () => {
   const { mutate: logout } = useLogout();
   const { openDialog } = useAccountDialog();
   const { user } = useAuth();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     try {
@@ -28,8 +30,7 @@ const SettingsMenu = () => {
   };
       
   return (
-    <>
-        <DropdownMenu>
+        <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
           <DropdownMenuTrigger asChild>
             <div className="flex flex-col items-center cursor-pointer">
               <Ellipsis />
@@ -41,7 +42,9 @@ const SettingsMenu = () => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup className="mb-10">
-              <DropdownMenuItem className="cursor-pointer py-3" onClick={handleEdit}>
+              <DropdownMenuItem className="cursor-pointer py-3" onClick={() => {
+                setIsDropdownOpen(false);
+                handleEdit()}}>
               <span className="flex flex-row items-center gap-3">
                 Edit Profile<Edit className="mr-2 h-4 w-4" />
               </span>
@@ -63,7 +66,6 @@ const SettingsMenu = () => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-    </>
   )
 }
 export default SettingsMenu
