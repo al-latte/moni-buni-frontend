@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../auth/hooks/useAuth";
 import { budgetSchema, type BudgetFormValues } from "../schemas/budgetSchema";
-import { useBudgetMutations, useBudgets } from "../hooks/useBudget";
+import { useBudgetMutations } from "../hooks/useBudget";
 import { useCategories } from "../../categories/hooks/useCategories";
 import { useBudgetDialogStore } from "@/stores/budget.store";
 import { useCallback, useEffect, useState } from "react";
@@ -77,7 +77,6 @@ const redistributeLimits = (
 const AddEditBudgetDialog = () => {
   const { createBudget, updateBudget } = useBudgetMutations();
   const { user } = useAuth();
-  const { data: userBudgets } = useBudgets(user?._id);
 
   const { isDialogOpen, budget, closeDialog } = useBudgetDialogStore();
 
@@ -214,9 +213,6 @@ const AddEditBudgetDialog = () => {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
       };
-      
-
-      console.log("Submitting budget:", formattedData);
 
       if (isEditing && budget) {
         await updateBudget.mutateAsync({
@@ -358,35 +354,6 @@ const AddEditBudgetDialog = () => {
                           (c) => c._id === value
                         );
                         if (category) {
-                          // Check if the category is already selected in the current budget
-                          if (selectedCategories.some((sc) => sc.categoryId === value)) {
-                            toast({
-                              title: "Category already selected",
-                              description: "This category has already been added to the budget.",
-                              variant: "destructive",
-                            });
-                            return;
-                          }
-                          // Check if the category exists in any of the user's existing budgets
-                          if (
-                            userBudgets &&
-                            userBudgets.some((budget) =>
-                              budget.categories.some(
-                                (cat: CategoryBudget) =>
-                                  (typeof cat.categoryId === "string"
-                                    ? cat.categoryId
-                                    : cat.categoryId._id) === value
-                              )
-                            )
-                          ) {
-                            toast({
-                              title: "Category already exists in a budget",
-                              description:
-                                "This category is already being tracked in one of your budgets.",
-                              variant: "destructive",
-                            });
-                            return;
-                          }
 
                           const newCategories = [
                             ...selectedCategories,

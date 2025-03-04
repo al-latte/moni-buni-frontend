@@ -29,7 +29,6 @@ export const budgetService = {
         };
       }),
     };
-    console.log("Sending to API:", formattedData);
     const data = await request<{ budget: Budget }>(
       "post",
       "/api/budgets/add",
@@ -57,7 +56,6 @@ export const budgetService = {
       }),
       
     };
-    console.log("Updating budget with:", formattedData);
     const data = await request<{ budget: Budget }>(
       "put",
       `/api/budgets/update/${id}`,
