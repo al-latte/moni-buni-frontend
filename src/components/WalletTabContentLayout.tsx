@@ -1,5 +1,4 @@
 import { Suspense, lazy } from "react";
-import { BreakdownDetail } from "./BreakdownDetail";
 import TransactionList from "@/features/transactions/components/TransactionList";
 import { useTotalExpenses } from "@/features/transactions/hooks/useTotalExpenses";
 import { usePeriodStore } from "@/stores/period.store";
@@ -44,8 +43,6 @@ export const WalletTabContentLayout = () => {
           walletId={selectedWallet._id}
         />
       </Suspense>
-
-      <BreakdownDetail />
 
       <TransactionList
         userId={user?._id}

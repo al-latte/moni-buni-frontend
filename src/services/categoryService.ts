@@ -1,73 +1,37 @@
-import { AxiosError } from "axios";
-import { api } from "@/services/axios.config";
 import { Category } from "../features/categories/types/category.types";
+import { request } from "@/utils/apiRequest";
 
 export const categoryService = {
   getAll: async (userId: string): Promise<Category[]> => {
-    try {
-      const { data } = await api.get(`/api/categories/${userId}`);
-      return data.categories;
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        if (error.status === 404) {
-          return [];
-        }
-        console.error("Error in getAll categories:", error);
-        throw new Error(
-          error.response?.data?.message || "Failed to fetch categories"
-        );
-      }
-      throw error;
-    }
+    const data = await request<{ categories: Category[] }>(
+      "get",
+      `/api/categories/${userId}`
+    );
+    return data.categories || [];
   },
 
   create: async (category: Omit<Category, "_id">): Promise<Category> => {
-    try {
-      const { data } = await api.post("/api/categories/add", category);
-      console.log("category data", data.category);
-      return data.category;
-    } catch (error) {
-      console.error("Error in create category:", error);
-      if (error instanceof AxiosError) {
-        throw new Error(
-          error.response?.data?.message || "Failed to create category"
-        );
-      }
-      throw error;
-    }
+    const data = await request<{ category: Category }>(
+      "post",
+      "/api/categories/add",
+      category
+    );
+    return data.category;
   },
 
   update: async (
     id: string,
     category: Partial<Category>
   ): Promise<Category> => {
-    try {
-      const { data } = await api.put(`/api/categories/update/${id}`, category);
-      return data.category;
-    } catch (error) {
-      console.error("Error in update category:", error);
-      if (error instanceof AxiosError) {
-        throw new Error(
-          error.response?.data?.message || "Failed to update category"
-        );
-      }
-      throw error;
-    }
+    const data = await request<{ category: Category }>(
+      "put",
+      `/api/categories/update/${id}`,
+      category
+    );
+    return data.category;
   },
 
   delete: async (id: string): Promise<void> => {
-    try {
-      await api.delete(`/api/categories/delete/${id}`);
-    } catch (error) {
-      console.error("Error in delete category:", error);
-      if (error instanceof AxiosError) {
-        throw new Error(
-          error.response?.data?.message || "Failed to delete category"
-        );
-      }
-      throw error;
-    }
+    await request<void>("delete", `/api/categories/delete/${id}`);
   },
 };
-
-

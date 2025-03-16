@@ -17,10 +17,10 @@ export const Layout = ({ children }: LayoutProps) => {
       <div className="md:hidden flex items-center justify-center p-4">
         <img src={fullHorizontalLogo} alt="logo" className="w-auto h-16" />
       </div>
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <MobileNav />
       </div>
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <MainNav />
       </div>
       <div className="flex-1 md:py-4 md:px-20">

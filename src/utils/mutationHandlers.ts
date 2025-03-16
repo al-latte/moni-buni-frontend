@@ -4,8 +4,8 @@ import { useToast } from "@/hooks/use-toast";
 export const useMutationHandlers = (queryClient: QueryClient) => {
   const { toast } = useToast();
 
-  const handleSuccess = (message: string) => {
-    queryClient.invalidateQueries({ queryKey: ["categories"] });
+  const handleSuccess = (message: string, queryKey: string | string[]) => {
+    queryClient.invalidateQueries({ queryKey});
     toast({
       description: message,
       variant: "success",

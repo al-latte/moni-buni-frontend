@@ -8,6 +8,7 @@ type UserState = {
   isLoading: boolean;
   isDialogOpen: boolean;
   setUser: (userData: User | null) => void;
+  setIsLoading: (isLoading: boolean) => void;
   login: (data: AuthResponse) => void;
   logout: () => void;
   openDialog: (user?: User) => void;
@@ -37,6 +38,7 @@ export const useUserStore = create<UserState>()(
 
           return { user: updatedUser };
         }),
+        setIsLoading: (isLoading) => set({ isLoading }),
 
       login: (data) =>
         set({

@@ -7,7 +7,6 @@ export const MainNav = () => {
   const { openDialog } = useTransactionDialogStore();
 
   return (
-    <>
       <div className="flex flex-col items-center justify-between w-20 h-[calc(100vh-2rem)] bg-black shadow-md px-4 py-12 text-white m-4 rounded-3xl">
         <div className="flex flex-col items-center space-y-10">
           <NavLink to="/">
@@ -78,7 +77,6 @@ export const MainNav = () => {
           )}
         </NavLink>
       </div>
-      
-    </>
+    
   );
 };

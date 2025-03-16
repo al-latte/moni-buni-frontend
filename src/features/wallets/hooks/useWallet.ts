@@ -10,8 +10,8 @@ export const useWalletMutations = () => {
   const createWallet = useMutation({
     mutationFn: (wallet: Omit<Wallet, "_id">) => walletService.create(wallet),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["wallets"] });
-      handleSuccess("Wallet created successfully");
+      //queryClient.invalidateQueries({ queryKey: ["wallets"] });
+      handleSuccess("Wallet created successfully", ["wallets"]);
     },
     onError: handleError,
   });
@@ -20,8 +20,8 @@ export const useWalletMutations = () => {
     mutationFn: ({ id, wallet }: { id: string; wallet: Partial<Wallet> }) =>
       walletService.update(id, wallet),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["wallets"] });
-      handleSuccess("Wallet updated successfully");
+      //queryClient.invalidateQueries({ queryKey: ["wallets"] });
+      handleSuccess("Wallet updated successfully", ["wallets"]);
     },
     onError: handleError,
   });
@@ -29,8 +29,8 @@ export const useWalletMutations = () => {
   const deleteWallet = useMutation({
     mutationFn: (id: string) => walletService.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["wallets"] });
-      handleSuccess("Wallet deleted successfully");
+      //queryClient.invalidateQueries({ queryKey: ["wallets"] });
+      handleSuccess("Wallet deleted successfully", ["wallets"]);
     },
     onError: handleError,
   });

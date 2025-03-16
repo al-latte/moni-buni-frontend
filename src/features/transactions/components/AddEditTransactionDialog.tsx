@@ -310,23 +310,23 @@ const AddEditTransactionDialog = () => {
             </DialogFooter>
           </form>
         </Form>
-        <div className="mt-4 flex flex-row justify-between">
+        <div className="mt-4 flex flex-row justify-between gap-4">
           <Button
             type="button"
             variant="outline"
-            className="rounded-full"
+            className="rounded-full flex-1"
             onClick={() => openCategoryDialog()}
           >
             <Plus className="h-4 w-4" />
-            Add new category
+            New category
           </Button>
           <Button
             variant="outline"
-            className="rounded-full"
+            className="rounded-full flex-1"
             onClick={() => openWalletDialog()}
           >
             <Plus className="h-4 w-4" />
-            Add new wallet
+            New wallet
           </Button>
         </div>
       </DialogContent>

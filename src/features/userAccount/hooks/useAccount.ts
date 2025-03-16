@@ -17,8 +17,8 @@ export const useAccountMutaions = () => {
       }) => authService.updateUser(id, data),
     onSuccess: (updatedUser) => {
       setUser(updatedUser);
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-      handleSuccess("Account updated successfully");
+      //queryClient.invalidateQueries({ queryKey: ["user"] });
+      handleSuccess("Account updated successfully", ["user"]);
     },
     onError: handleError,
   });

@@ -1,5 +1,4 @@
 import { Suspense, lazy } from 'react'
-import { BreakdownDetail } from "./BreakdownDetail";
 import TransactionList from "../features/transactions/components/TransactionList";
 import { useTotalExpenses } from "@/features/transactions/hooks/useTotalExpenses";
 import { usePeriodStore } from "@/stores/period.store";
@@ -26,7 +25,6 @@ export const TabContentLayout = () => {
           <Suspense fallback={<div className="min-h-[300px] animate-pulse bg-gray-200 rounded-3xl" />}>
             <Chart userId={user?._id} period={selectedPeriod} />
           </Suspense>
-          <BreakdownDetail />
           <TransactionList userId={user?._id} period={selectedPeriod} />
         </div>
       </div>
@@ -41,7 +39,6 @@ export const TabContentLayout = () => {
         <Suspense fallback={<div className="min-h-[300px] animate-pulse bg-gray-200 rounded-3xl" />}>
             <Chart userId={user?._id} period={selectedPeriod} />
           </Suspense>
-          <BreakdownDetail />
         </div>
       </div>
     </>

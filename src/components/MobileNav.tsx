@@ -18,7 +18,6 @@ export const MobileNav = () => {
             {({ isActive }) => (
               <>
                 <DollarSign color={isActive ? "#000000" : "#9ca3af"} />
-                {/* <p className="text-xs font-medium">Transactions</p> */}
               </>
             )}
           </NavLink>
@@ -31,7 +30,6 @@ export const MobileNav = () => {
             {({ isActive }) => (
               <>
                 <WalletMinimal color={isActive ? "#000000" : "#9ca3af"} />
-                {/* <p className="text-xs font-medium">Wallets</p> */}
               </>
             )}
           </NavLink>
@@ -50,7 +48,6 @@ export const MobileNav = () => {
             {({ isActive }) => (
               <>
                 <Notebook color={isActive ? "#000000" : "#9ca3af"} />
-                {/* <p className="text-xs font-medium">Budget</p> */}
               </>
             )}
           </NavLink>
@@ -63,7 +60,6 @@ export const MobileNav = () => {
             {({ isActive }) => (
               <>
                 <CircleUser color={isActive ? "#000000" : "#9ca3af"} />
-                {/* <p className="text-xs font-medium">Account</p> */}
               </>
             )}
           </NavLink>

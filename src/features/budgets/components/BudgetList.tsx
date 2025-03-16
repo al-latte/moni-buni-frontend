@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import BudgetGroup from "./BudgetGroup";
 import { Progress } from "@/components/ui/progress";
 import { groupBudgetsByIsActive } from "@/utils/budgetFilter";
+import { Budget } from "../types/budget.types";
 
 export const BudgetList = () => {
   const { user } = useAuth();
@@ -36,7 +37,16 @@ export const BudgetList = () => {
     );
   }
 
+  type GroupedBudgets = {
+    [key: string]: Budget[];
+  };
+
   const groupedBudgets = groupBudgetsByIsActive(budgets ?? []);
+  const sortedGroupedBudgets = Object.keys(groupedBudgets).sort().reduce((obj, key) => {
+    obj[key] = groupedBudgets[key];
+    return obj;
+  }, {} as GroupedBudgets);
+  
 
   return (
     <div className="mb-44 w-full p-3 md:p-6">
@@ -66,7 +76,7 @@ export const BudgetList = () => {
           </CardContent>
         </Card>
       ) : (
-        Object.entries(groupedBudgets).map(([groupLabel, groupBudgets]) => (
+        Object.entries(sortedGroupedBudgets).map(([groupLabel, groupBudgets]) => (
           <BudgetGroup key={groupLabel} label={groupLabel} budgets={groupBudgets} />
         ))
       )}

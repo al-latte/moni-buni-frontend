@@ -6,7 +6,7 @@ import { Grip, Repeat, Siren } from "lucide-react";
 const AccountTabs = () => {
   return (
     <section className="relative">
-      <Tabs defaultValue="categories" className="w-full p-3 md:p-6">
+      <Tabs defaultValue="categories" className="w-full md:p-6">
         <TabsList className="grid w-full grid-cols-3 rounded-full bg-white border-2 border-black h-10 p-0 lg:max-w-[1080px] md:mx-auto">
           <TabsTrigger
             value="categories"
@@ -40,7 +40,9 @@ const AccountTabs = () => {
         </TabsContent>
         <TabsContent value="recurring transactions">
           <div className="flex justify-center items-center h-96">
-            <h1 className="text-5xl font-bold">Recurring Transactions Coming Soon!</h1>
+            <h1 className="text-5xl font-bold">
+              Recurring Transactions Coming Soon!
+            </h1>
           </div>
         </TabsContent>
         <TabsContent value="insights">
