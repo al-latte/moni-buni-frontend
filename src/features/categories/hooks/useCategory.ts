@@ -11,7 +11,6 @@ export const useCategoryMutations = () => {
     mutationFn: (category: Omit<Category, "_id">) =>
       categoryService.create(category),
     onSuccess: () => {
-      //queryClient.invalidateQueries({ queryKey: ["categories"] });
       handleSuccess("Category created successfully", ["categories"]);
     },
     onError: handleError,
@@ -26,7 +25,6 @@ export const useCategoryMutations = () => {
       category: Partial<Category>;
     }) => categoryService.update(id, category),
     onSuccess: () => {
-      //queryClient.invalidateQueries({ queryKey: ["categories"] });
       handleSuccess("Category updated successfully", ["categories"]);
     },
     onError: handleError,
@@ -35,7 +33,6 @@ export const useCategoryMutations = () => {
   const deleteCategory = useMutation({
     mutationFn: (id: string) => categoryService.delete(id),
     onSuccess: () => {
-      //queryClient.invalidateQueries({ queryKey: ["categories"] });
       handleSuccess("Category deleted successfully", ["categories"]);
     },
     onError: handleError,

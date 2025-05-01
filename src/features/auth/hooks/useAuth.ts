@@ -9,7 +9,7 @@ export const useAuth = () => {
     if (isLoading) {
       setIsLoading(false);
     }
-  }, [isLoading]);
+  }, [isLoading, setIsLoading]);
 
   return {
     user,

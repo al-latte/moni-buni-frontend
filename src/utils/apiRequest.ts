@@ -18,7 +18,7 @@ export async function request<T>(
           return {} as T;
         }
         throw new Error(
-          error.response?.data?.message || "API call failed"
+          error.response?.data?.error || "Something went wrong, please try again."
         );
       }
       throw error;

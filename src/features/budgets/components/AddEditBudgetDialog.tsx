@@ -268,7 +268,7 @@ const AddEditBudgetDialog = () => {
                 <FormItem>
                   <FormLabel>Total Amount</FormLabel>
                   <FormControl className="rounded-full">
-                    <Input type="number" {...field} />
+                    <Input type="number" inputMode="numeric" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -403,6 +403,7 @@ const AddEditBudgetDialog = () => {
                           <div className="flex items-center gap-2">
                             <Input
                               type="number"
+                              inputMode="numeric"
                               value={category.limit}
                               className={cn(
                                 "w-24 bg-gray-100 rounded-full text-right",

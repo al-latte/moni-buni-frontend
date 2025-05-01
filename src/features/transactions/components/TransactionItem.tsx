@@ -71,8 +71,11 @@ const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
       <div className="absolute inset-0 flex">
         {/* Edit action on the left side (appears when swiping left) */}
         <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1}}
+        transition={{ delay: 2 }}
           style={{ width: editWidth }}
-          className="bg-blue-500 flex items-center justify-center overflow-hidden rounded-s-lg"
+          className="bg-blue-500 flex items-center justify-center overflow-hidden rounded-s-xl"
         >
           <motion.div
             style={{ opacity: editProgress }}
@@ -87,8 +90,11 @@ const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
 
         {/* Delete action on the right side (appears when swiping right) */}
         <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1}}
+        transition={{ delay: 2 }}
           style={{ width: deleteWidth }}
-          className="bg-red-500 flex items-center justify-center overflow-hidden rounded-e-lg"
+          className="bg-red-500 flex items-center justify-center overflow-hidden rounded-e-xl"
         >
           <motion.div
             style={{ opacity: deleteProgress }}
