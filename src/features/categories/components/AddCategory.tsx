@@ -131,7 +131,7 @@ const AddCategory = () => {
                 </FormItem>
               )}
             />
-
+           
             <FormField
               control={form.control}
               name="icon"

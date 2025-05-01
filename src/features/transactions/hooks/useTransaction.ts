@@ -11,7 +11,6 @@ export const useTransactionMutations = () => {
     mutationFn: (transaction: Omit<Transaction, "_id">) =>
       transactionService.create(transaction),
     onSuccess: () => {
-      //queryClient.invalidateQueries({ queryKey: ["transactions"] });
       handleSuccess("Transaction created successfully", ["transactions"]);},
     onError: handleError,
   });
@@ -25,7 +24,6 @@ export const useTransactionMutations = () => {
       transaction: Partial<Transaction>;
     }) => transactionService.update(id, transaction),
     onSuccess: () => {
-      //queryClient.invalidateQueries({ queryKey: ["transactions"] });
       handleSuccess("Transaction updated successfully", ["transactions"])},
     onError: handleError,
   });
@@ -33,7 +31,6 @@ export const useTransactionMutations = () => {
   const deleteTransaction = useMutation({
     mutationFn: (id: string) => transactionService.delete(id),
     onSuccess: () => {
-      //queryClient.invalidateQueries({ queryKey: ["transactions"] });
       handleSuccess("Transaction deleted successfully", ["transactions"])},
     onError: handleError,
   });

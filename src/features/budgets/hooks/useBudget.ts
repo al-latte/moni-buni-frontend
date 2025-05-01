@@ -25,7 +25,6 @@ export const useBudgetMutations = () => {
     mutationFn: (budget: BudgetFormValues & { userId: string }) =>
       budgetService.create(budget),
     onSuccess: () => {
-      //queryClient.invalidateQueries({ queryKey: ["budgets"] });
       handleSuccess("Budget created successfully", ["budgets"])},
     onError: handleError,
   });
@@ -39,7 +38,6 @@ export const useBudgetMutations = () => {
       budget: Partial<BudgetFormValues> & { userId: string };
     }) => budgetService.update(id, budget),
     onSuccess: () => {
-      //queryClient.invalidateQueries({ queryKey: ["budgets"] });
       handleSuccess("Budget updated successfully", ["budgets"])},
     onError: handleError,
   });
@@ -47,7 +45,6 @@ export const useBudgetMutations = () => {
   const deleteBudget = useMutation({
     mutationFn: (id: string) => budgetService.delete(id),
     onSuccess: () => {
-      //queryClient.invalidateQueries({ queryKey: ["budgets"] });
       handleSuccess("Budget deleted successfully", ["budgets"])},
     onError: handleError,
   });
