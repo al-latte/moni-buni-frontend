@@ -163,7 +163,7 @@ const AddEditTransactionDialog = () => {
                 <FormItem>
                   <FormLabel>Amount</FormLabel>
                   <FormControl className="rounded-full">
-                    <Input inputMode="numeric" type="number" {...field} />
+                    <Input inputMode="decimal" type="number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
