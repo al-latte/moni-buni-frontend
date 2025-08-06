@@ -1,4 +1,3 @@
-import React from "react"
 import { User } from "@/features/auth/types/auth.types";
 import { AuthResponse } from "@/features/auth/types/auth.types";
 import { create } from "zustand";
