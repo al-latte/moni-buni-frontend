@@ -1,6 +1,5 @@
 import { Suspense, lazy } from "react";
 import TransactionList from "@/features/transactions/components/TransactionList";
-import { useTotalExpenses } from "@/features/transactions/hooks/useTotalExpenses";
 import { usePeriodStore } from "@/stores/period.store";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 import { ExpenseHeader } from "./ExpenseHeader";
@@ -12,11 +11,6 @@ export const WalletTabContentLayout = () => {
   const { selectedPeriod } = usePeriodStore();
   const { selectedWallet } = useWalletDialogStore();
   const { user } = useAuth();
-  const { total, isLoading } = useTotalExpenses(
-    user?._id,
-    selectedPeriod,
-    selectedWallet?._id
-  );
 
   if (!user) return null;
 
@@ -30,7 +24,7 @@ export const WalletTabContentLayout = () => {
 
   return (
     <div className="space-y-6">
-      <ExpenseHeader total={total} isLoading={isLoading} />
+      <ExpenseHeader walletId={selectedWallet._id} />
 
       <Suspense
         fallback={
