@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useUserStore } from "@/stores/user.store";
 
 export const useAuth = () => {
