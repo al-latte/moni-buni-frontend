@@ -1,6 +1,5 @@
 import { Suspense, lazy } from 'react'
 import TransactionList from "../features/transactions/components/TransactionList";
-import { useTotalExpenses } from "@/features/transactions/hooks/useTotalExpenses";
 import { usePeriodStore } from "@/stores/period.store";
 import { ExpenseHeader } from "./ExpenseHeader";
 import { useAuth } from '@/features/auth/hooks/useAuth';
@@ -9,8 +8,7 @@ const Chart = lazy(() => import("./Chart"))
 
 export const TabContentLayout = () => {
   const { selectedPeriod } = usePeriodStore();
-  const { user } = useAuth();
-  const { total, isLoading } = useTotalExpenses(user?._id, selectedPeriod); 
+  const { user } = useAuth(); 
 
   if (!user) return null;
 
@@ -20,7 +18,7 @@ export const TabContentLayout = () => {
       <div className="block lg:hidden">
         <div>
           
-          <ExpenseHeader total={total} isLoading={isLoading} />
+          <ExpenseHeader />
 
           <Suspense fallback={<div className="min-h-[300px] animate-pulse bg-gray-200 rounded-3xl" />}>
             <Chart userId={user?._id} period={selectedPeriod} />
@@ -31,7 +29,7 @@ export const TabContentLayout = () => {
       {/* Desktop Layout */}
       <div className="hidden lg:flex lg:flex-row gap-4">
         <div className="lg:w-1/2 lg:pr-32">
-        <ExpenseHeader total={total} isLoading={isLoading} />
+        <ExpenseHeader />
 
           <TransactionList userId={user?._id} period={selectedPeriod} />
         </div>
