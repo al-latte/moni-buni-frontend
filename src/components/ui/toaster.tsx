@@ -11,11 +11,28 @@ import {
 export function Toaster() {
   const { toasts } = useToast()
 
+  // Add a safety check for toasts
+  if (!toasts || !Array.isArray(toasts)) {
+    return (
+      <ToastProvider>
+        <ToastViewport />
+      </ToastProvider>
+    );
+  }
+
   return (
     <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
+      {toasts.map(function ({ id, title, description, action, open, onOpenChange, ...props }) {
+        // Make sure we have an ID and we're properly passing the open state
+        if (!id) return null;
+        
         return (
-          <Toast key={id} {...props}>
+          <Toast 
+            key={id} 
+            open={open} 
+            onOpenChange={onOpenChange} 
+            {...props}
+          >
             <div className="grid gap-1">
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (

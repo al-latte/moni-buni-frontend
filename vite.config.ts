@@ -8,6 +8,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "use-sync-external-store/shim/index.js": "react",
+      "use-sync-external-store/shim": "react",
+      "use-sync-external-store": "react",
     },
   },
   server: {
