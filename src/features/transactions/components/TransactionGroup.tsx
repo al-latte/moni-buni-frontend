@@ -4,14 +4,20 @@ import {
   CollapsibleContent,
 } from "../../../components/ui/collapsible";
 import { ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../../../components/ui/button";
 import TransactionItem from "./TransactionItem";
 import { type TransactionGroup } from "../types/transaction.types";
 import { AnimatePresence, motion } from "motion/react";
+import { useCollapseStore } from "@/stores/collapse.store";
 
 const TransactionGroup = ({ date, transactions }: TransactionGroup) => {
   const [isOpen, setIsOpen] = useState(true);
+  const isAllExpanded = useCollapseStore((state) => state.isAllExpanded);
+
+  useEffect(() => {
+    setIsOpen(isAllExpanded);
+  }, [isAllExpanded]);
 
   return (
     <div className="mb-3">

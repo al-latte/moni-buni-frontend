@@ -60,6 +60,8 @@ const Chart = ({ userId, period, walletId }: ChartProps) => {
         data={data}
         accessibilityLayer
         margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+        width={800}
+        height={300}
       >
         <XAxis
           dataKey="date"

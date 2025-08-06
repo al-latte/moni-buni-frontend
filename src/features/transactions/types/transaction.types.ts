@@ -1,7 +1,7 @@
 export interface Transaction {
   _id: string;
   amount: number;
-  category: string
+  category: string;
   description?: string;
   transactionType: "income" | "expense";
   date: Date;
@@ -9,7 +9,7 @@ export interface Transaction {
   userId: string;
 }
 
-export type Period = 'week' | 'month' | 'year' | 'alltime';
+export type Period = "week" | "month" | "year" | "alltime";
 
 export interface TransactionGroup {
   date: string;
