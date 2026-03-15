@@ -46,7 +46,7 @@ import { Portal } from "@radix-ui/react-dialog";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
 import { useCategoryDialogStore } from "@/stores/category.store";
 import { useWalletDialogStore } from "@/stores/wallet.store";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 
 const AddEditTransactionDialog = () => {
   const { createTransaction, updateTransaction } = useTransactionMutations();
@@ -61,14 +61,17 @@ const AddEditTransactionDialog = () => {
   const { data: wallets } = useWallets(user?._id);
   const isEditing = !!transaction;
 
-  const defaultValues: TransactionFormValues = {
-    amount: 0,
-    category: "",
-    description: "",
-    transactionType: "expense",
-    date: new Date(),
-    wallet: "",
-  };
+  const defaultValues = useMemo<Partial<TransactionFormValues>>(
+    () => ({
+      amount: 0,
+      category: "",
+      description: "",
+      transactionType: "expense",
+      date: new Date(),
+      wallet: "",
+    }),
+    []
+  );
 
   const form = useForm<TransactionFormValues>({
     resolver: zodResolver(transactionSchema),
@@ -89,7 +92,7 @@ const AddEditTransactionDialog = () => {
       date: new Date(transaction.date),
       wallet: transaction.wallet,
     });
-  }, [transaction, form]);
+  }, [transaction, form, defaultValues]);
 
   useEffect(() => {
     if (isDialogOpen) {
