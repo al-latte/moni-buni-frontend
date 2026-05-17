@@ -1,7 +1,8 @@
-import { CircleUser, DollarSign, Notebook, Plus, WalletMinimal } from "lucide-react";
+import { DollarSign, Notebook, Plus, Settings, TrendingUp } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import fullHorizontalLogo from "./../assets/logo/full-ver-white2.svg";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
+import { ProfileLink } from "./ProfileLink";
 
 export const MainNav = () => {
   const { openDialog } = useTransactionDialogStore();
@@ -14,6 +15,7 @@ export const MainNav = () => {
               <img src={fullHorizontalLogo} alt="" className="w-full h-16" />
             </div>
           </NavLink>
+          <ProfileLink />
           <NavLink
           to="/"
           className={({ isActive }) =>
@@ -28,15 +30,15 @@ export const MainNav = () => {
           )}
         </NavLink>
         <NavLink
-          to="/wallets"
+          to="/insights"
           className={({ isActive }) =>
             `flex flex-col items-center ${isActive ? "active-class" : "text-gray-400"}`
           }
         >
           {({ isActive }) => (
             <>
-              <WalletMinimal color={isActive ? "#ffffff" : "#9ca3af"} />
-              <p className="text-xs font-medium">Wallets</p>
+              <TrendingUp color={isActive ? "#ffffff" : "#9ca3af"} />
+              <p className="text-xs font-medium">Insights</p>
             </>
           )}
         </NavLink>
@@ -64,15 +66,15 @@ export const MainNav = () => {
         </NavLink>
         </div>
         <NavLink
-          to="/account-settings"
+          to="/settings"
           className={({ isActive }) =>
             `flex flex-col items-center ${isActive ? "active-class" : "text-gray-400"}`
           }
         >
           {({ isActive }) => (
             <>
-              <CircleUser color={isActive ? "#ffffff" : "#9ca3af"} />
-              <p className="text-xs font-medium">Account</p>
+              <Settings color={isActive ? "#ffffff" : "#9ca3af"} />
+              <p className="text-xs font-medium">Settings</p>
             </>
           )}
         </NavLink>

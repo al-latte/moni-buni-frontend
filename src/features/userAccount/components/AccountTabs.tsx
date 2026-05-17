@@ -1,7 +1,12 @@
+import { lazy, Suspense } from "react";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { CategoryList } from "@/features/categories/components/CategoryList";
 import { TabsTrigger } from "@radix-ui/react-tabs";
-import { Grip, Repeat, Siren } from "lucide-react";
+import { Grip, Repeat, TrendingUp } from "lucide-react";
+
+const InsightsTabContent = lazy(
+  () => import("@/features/insights/components/InsightsTabContent")
+);
 
 const AccountTabs = () => {
   return (
@@ -10,7 +15,7 @@ const AccountTabs = () => {
         <TabsList className="grid w-full grid-cols-3 rounded-full bg-white border-2 border-black h-10 p-0 lg:max-w-[1080px] md:mx-auto">
           <TabsTrigger
             value="categories"
-            className="flex items-center justify-center gap-2 rounded-full h-full px-4 
+            className="flex items-center justify-center gap-2 rounded-full h-full px-4
                        data-[state=active]:bg-black data-[state=active]:text-white"
           >
             <Grip className="h-5 w-5" />
@@ -18,7 +23,7 @@ const AccountTabs = () => {
           </TabsTrigger>
           <TabsTrigger
             value="recurring transactions"
-            className="flex items-center justify-center gap-2 rounded-full h-full px-4 
+            className="flex items-center justify-center gap-2 rounded-full h-full px-4
                        data-[state=active]:bg-black data-[state=active]:text-white"
           >
             <Repeat className="h-5 w-5" />
@@ -28,13 +33,14 @@ const AccountTabs = () => {
           </TabsTrigger>
           <TabsTrigger
             value="insights"
-            className="flex items-center justify-center gap-2 rounded-full h-full px-4 
+            className="flex items-center justify-center gap-2 rounded-full h-full px-4
                        data-[state=active]:bg-black data-[state=active]:text-white"
           >
-            <Siren className="h-5 w-5" />
+            <TrendingUp className="h-5 w-5" />
             <span className="hidden lg:inline-block">Insights</span>
           </TabsTrigger>
         </TabsList>
+
         <TabsContent value="categories">
           <CategoryList />
         </TabsContent>
@@ -46,9 +52,9 @@ const AccountTabs = () => {
           </div>
         </TabsContent>
         <TabsContent value="insights">
-          <div className="flex justify-center items-center h-96">
-            <h1 className="text-5xl font-bold">Insights Coming Soon!</h1>
-          </div>
+          <Suspense fallback={null}>
+            <InsightsTabContent />
+          </Suspense>
         </TabsContent>
       </Tabs>
     </section>

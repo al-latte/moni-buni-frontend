@@ -1,4 +1,4 @@
-import { CircleUser, DollarSign, Notebook, Plus, WalletMinimal } from "lucide-react";
+import { House, Notebook, Plus, Settings, TrendingUp } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useTransactionDialogStore } from "@/stores/transaction.store";
 
@@ -6,64 +6,53 @@ export const MobileNav = () => {
   const { openDialog } = useTransactionDialogStore();
 
   return (
-    <menu className="fixed bottom-0 w-full h-24 bg-white shadow-md px-4 pt-2 z-50 border-t border-gray-200">
-      <div className="flex gap-12 justify-center items-center w-full">
-        
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `flex flex-col items-center ${isActive ? "" : "text-gray-400"}`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <DollarSign color={isActive ? "#000000" : "#9ca3af"} />
-              </>
-            )}
-          </NavLink>
-          <NavLink
-            to="/wallets"
-            className={({ isActive }) =>
-              `flex flex-col items-center ${isActive ? "active-class" : "text-gray-400"}`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <WalletMinimal color={isActive ? "#000000" : "#9ca3af"} />
-              </>
-            )}
-          </NavLink>
+    <menu className="fixed bottom-3 w-full bg-white/70 backdrop-blur-md rounded-full shadow-md p-2 z-50 border border-gray-200/50">
+      <div className="flex gap-2 justify-between items-center w-full text-black">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `flex flex-col items-center py-2 px-4 rounded-full ${isActive ? "bg-black/10" : ""}`
+          }
+        >
+          <House color="#000000" />
+          <span className="text-xs">Home</span>
+        </NavLink>
+        <NavLink
+          to="/insights"
+          className={({ isActive }) =>
+            `flex flex-col items-center py-2 px-4 rounded-full ${isActive ? "bg-black/10" : ""}`
+          }
+        >
+          <TrendingUp color="#000000" />
+          <span className="text-xs">Insights</span>
+        </NavLink>
+        <div className="flex flex-col items-center">
           <div
             onClick={() => openDialog()}
             className="bg-black text-white rounded-full p-3 cursor-pointer"
           >
             <Plus />
           </div>
-          <NavLink
-            to="/budgets"
-            className={({ isActive }) =>
-              `flex flex-col items-center ${isActive ? "active-class" : "text-gray-400"}`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <Notebook color={isActive ? "#000000" : "#9ca3af"} />
-              </>
-            )}
-          </NavLink>
-          <NavLink
-            to="/account-settings"
-            className={({ isActive }) =>
-              `flex flex-col items-center ${isActive ? "active-class" : "text-gray-400"}`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <CircleUser color={isActive ? "#000000" : "#9ca3af"} />
-              </>
-            )}
-          </NavLink>
-                </div>
-        </menu>
+        </div>
+        <NavLink
+          to="/budgets"
+          className={({ isActive }) =>
+            `flex flex-col items-center py-2 px-4 rounded-full ${isActive ? "bg-black/10" : ""}`
+          }
+        >
+          <Notebook color="#000000" />
+          <span className="text-xs">Budgets</span>
+        </NavLink>
+        <NavLink
+          to="/settings"
+          className={({ isActive }) =>
+            `flex flex-col items-center py-2 px-4 rounded-full ${isActive ? "bg-black/10" : ""}`
+          }
+        >
+          <Settings color="#000000" />
+          <span className="text-xs">Settings</span>
+        </NavLink>
+      </div>
+    </menu>
   );
 };

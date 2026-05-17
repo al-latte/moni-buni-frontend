@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 
-const WalletList = () => {
+interface WalletListProps {
+  selectable?: boolean;
+}
+
+const WalletList = ({ selectable = false }: WalletListProps) => {
   const { user } = useAuth();
   const { data: wallets, isLoading } = useWallets(user?._id);
   const { openDialog } = useWalletDialogStore();
@@ -38,7 +42,12 @@ const WalletList = () => {
       ) : (
         <div className="grid gap-4">
           {wallets.map((wallet, index) => (
-            <WalletItem key={wallet._id} wallet={wallet} custom={index}/>
+            <WalletItem
+              key={wallet._id}
+              wallet={wallet}
+              custom={index}
+              selectable={selectable}
+            />
           ))}
         </div>
       )}

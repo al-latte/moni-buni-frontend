@@ -16,3 +16,9 @@ export interface TransactionGroup {
   transactions: Transaction[];
   total: number;
 }
+
+export interface TransactionFilters {
+  subPeriodValues: string[];
+  categoryIds: string[];
+  transactionTypes: ("income" | "expense")[];
+}

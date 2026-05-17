@@ -3,7 +3,17 @@ import {
   Transaction,
   Period,
   TransactionGroup,
+  TransactionFilters,
 } from "../features/transactions/types/transaction.types";
+
+export const getPeriodDateRange = (period: Period): { startDate?: string; endDate?: string } => {
+  if (period === "alltime") return {};
+  const now = moment();
+  return {
+    startDate: now.clone().startOf(period).toISOString(),
+    endDate: now.clone().endOf(period).toISOString(),
+  };
+};
 
 export const filterTransactionsByPeriod = (
   transactions: Transaction[],
@@ -25,6 +35,68 @@ export const filterTransactionsByPeriod = (
   return filtered.sort((a, b) => 
     moment(b.date).valueOf() - moment(a.date).valueOf()
   );
+};
+
+export const getSubPeriodLabel = (period: Period): string => {
+  const labels: Record<Period, string> = {
+    week: "Day",
+    month: "Week",
+    year: "Month",
+    alltime: "Year",
+  };
+  return labels[period];
+};
+
+export const getSubPeriodOptions = (period: Period, availableYears?: string[]): string[] => {
+  switch (period) {
+    case "week":
+      return ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    case "month":
+      return ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"];
+    case "year":
+      return ["January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November", "December"];
+    case "alltime":
+      return availableYears ?? [];
+  }
+};
+
+const getWeekOfMonth = (date: Date | string): string => {
+  const weekNum = Math.ceil(moment(date).date() / 7);
+  return `Week ${weekNum}`;
+};
+
+export const getTransactionSubPeriodKey = (date: Date | string, period: Period): string => {
+  switch (period) {
+    case "week": return moment(date).format("dddd");
+    case "month": return getWeekOfMonth(date);
+    case "year": return moment(date).format("MMMM");
+    case "alltime": return moment(date).format("YYYY");
+  }
+};
+
+export const applyTransactionFilters = (
+  transactions: Transaction[],
+  period: Period,
+  filters: TransactionFilters
+): Transaction[] => {
+  let result = [...transactions];
+
+  if (filters.subPeriodValues.length > 0) {
+    result = result.filter((t) =>
+      filters.subPeriodValues.includes(getTransactionSubPeriodKey(t.date, period))
+    );
+  }
+
+  if (filters.categoryIds.length > 0) {
+    result = result.filter((t) => filters.categoryIds.includes(t.category));
+  }
+
+  if (filters.transactionTypes.length > 0) {
+    result = result.filter((t) => filters.transactionTypes.includes(t.transactionType));
+  }
+
+  return result;
 };
 
 export const groupTransactionsByPeriod = (

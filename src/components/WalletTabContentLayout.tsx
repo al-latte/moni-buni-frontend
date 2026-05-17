@@ -1,10 +1,11 @@
 import { Suspense, lazy } from "react";
 import TransactionList from "@/features/transactions/components/TransactionList";
-import { useTotalExpenses } from "@/features/transactions/hooks/useTotalExpenses";
 import { usePeriodStore } from "@/stores/period.store";
 import { useWalletDialogStore } from "@/stores/wallet.store";
 import { ExpenseHeader } from "./ExpenseHeader";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useFilteredTransactions } from "@/features/transactions/hooks/useFilteredTransactions";
+import TransactionFilterBar from "@/features/transactions/components/TransactionFilterBar";
 
 const Chart = lazy(() => import("./Chart"));
 
@@ -12,8 +13,18 @@ export const WalletTabContentLayout = () => {
   const { selectedPeriod } = usePeriodStore();
   const { selectedWallet } = useWalletDialogStore();
   const { user } = useAuth();
-  const { total, isLoading } = useTotalExpenses(
-    user?._id,
+  const {
+    transactions,
+    filteredTransactions,
+    totalExpenses,
+    availableYears,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useFilteredTransactions(
+    selectedWallet ? user?._id : undefined,
     selectedPeriod,
     selectedWallet?._id
   );
@@ -30,24 +41,35 @@ export const WalletTabContentLayout = () => {
 
   return (
     <div className="space-y-6">
-      <ExpenseHeader total={total} isLoading={isLoading} />
+      <ExpenseHeader
+        total={totalExpenses}
+        isLoading={isLoading}
+        actions={
+          <TransactionFilterBar
+            period={selectedPeriod}
+            userId={user._id}
+            availableYears={availableYears}
+          />
+        }
+      />
 
       <Suspense
         fallback={
           <div className="min-h-[300px] animate-pulse bg-gray-200 rounded-3xl" />
         }
       >
-        <Chart
-          userId={user?._id}
-          period={selectedPeriod}
-          walletId={selectedWallet._id}
-        />
+        <Chart transactions={filteredTransactions} />
       </Suspense>
 
       <TransactionList
-        userId={user?._id}
         period={selectedPeriod}
-        walletId={selectedWallet._id}
+        transactions={filteredTransactions}
+        allTransactions={transactions}
+        isLoading={isLoading}
+        error={error}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={!!hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
       />
     </div>
   );

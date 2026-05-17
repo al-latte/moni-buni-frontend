@@ -46,11 +46,10 @@ export const useUserStore = create<UserState>()(
             ...data.user,
             token: data.token,
           },
+          isLoading: false,
         }),
 
-      logout: () => set({ user: null }),
-
-      setLoading: (isLoading: boolean) => set({ isLoading }),
+      logout: () => set({ user: null, isLoading: false }),
 
       openDialog: (user) =>
         set((state) => {
@@ -78,6 +77,9 @@ export const useUserStore = create<UserState>()(
     {
       name: "user-storage",
       partialize: (state) => ({ user: state.user }),
+      onRehydrateStorage: () => (state) => {
+        state?.setIsLoading(false);
+      },
     }
   )
 );

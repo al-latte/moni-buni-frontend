@@ -11,7 +11,8 @@ import {
   useDragControls,
 } from "motion/react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import TransactionDetailDrawer from "./TransactionDetailDrawer";
 
 interface TransactionItemProps {
   transaction: Transaction;
@@ -21,7 +22,9 @@ interface TransactionItemProps {
 const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
   const { openDialog } = useTransactionDialogStore();
   const { deleteTransaction } = useTransactionMutations();
-  const [ alertOpen, setAlertOpen ] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
+  const hasDragged = useRef(false);
 
   const { data: categories } = useCategories(transaction.userId);
 
@@ -44,7 +47,6 @@ const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
   const x = useMotionValue(0);
   const dragControls = useDragControls();
 
-  //useTransform(x(is motion value), input range, output range)
   const deleteProgress = useTransform(x, [-100, -20], [1, 0]);
   const deleteWidth = useTransform(
     x,
@@ -53,11 +55,18 @@ const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
 
   const editProgress = useTransform(x, [20, 100], [0, 1]);
   const editWidth = useTransform(
-    x, 
+    x,
     value => value > 0 ? value : 0
   );
 
+  const handleDragStart = () => {
+    hasDragged.current = false;
+  };
+
   const handleDragEnd = (_: unknown, info: { offset: { x: number } }) => {
+    if (Math.abs(info.offset.x) > 5) {
+      hasDragged.current = true;
+    }
     if (info.offset.x > 100) {
       handleEdit();
     } else if (info.offset.x < -100) {
@@ -66,14 +75,20 @@ const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
     x.set(0);
   };
 
+  const handleTap = () => {
+    if (!hasDragged.current) {
+      setDetailOpen(true);
+    }
+    hasDragged.current = false;
+  };
+
   return (
     <div className="relative overflow-hidden mt-2">
       <div className="absolute inset-0 flex">
-        {/* Edit action on the left side (appears when swiping left) */}
         <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1}}
-        transition={{ delay: 2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2 }}
           style={{ width: editWidth }}
           className="bg-blue-500 flex items-center justify-center overflow-hidden rounded-s-xl"
         >
@@ -85,14 +100,12 @@ const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
           </motion.div>
         </motion.div>
 
-        {/* Spacer to push delete action to the right */}
         <div className="flex-grow"></div>
 
-        {/* Delete action on the right side (appears when swiping right) */}
         <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1}}
-        transition={{ delay: 2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2 }}
           style={{ width: deleteWidth }}
           className="bg-red-500 flex items-center justify-center overflow-hidden rounded-e-xl"
         >
@@ -113,12 +126,14 @@ const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
           ease: "easeOut",
           delay: custom * 0.2,
         }}
-        className="py-2 text-sm relative overflow-hidden border-b border-gray-200"
+        className="py-2 text-sm relative overflow-hidden border-b border-gray-200 cursor-pointer"
         style={{ x }}
         drag="x"
-        dragControls={ dragControls }
+        dragControls={dragControls}
         dragConstraints={{ left: 0, right: 0 }}
-        onDragEnd={ handleDragEnd }
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onTap={handleTap}
       >
         <div className="flex items-center justify-between gap-4 m-3">
           <div className="flex items-start gap-4">
@@ -148,6 +163,7 @@ const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
           </div>
         </div>
       </motion.div>
+
       <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
         <AlertDialogContent className="border-none">
           <AlertDialogHeader>
@@ -163,6 +179,12 @@ const TransactionItem = ({ transaction, custom }: TransactionItemProps) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <TransactionDetailDrawer
+        transaction={transaction}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+      />
     </div>
   );
 };

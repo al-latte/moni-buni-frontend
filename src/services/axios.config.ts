@@ -26,7 +26,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('user');
+      useUserStore.persist.clearStorage();
       useUserStore.getState().logout();
 
       if (window.location.pathname !== '/login' && window.location.pathname !== '/signup') {

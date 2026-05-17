@@ -1,5 +1,4 @@
 import { useTransactions } from "./useTransactions";
-import { filterTransactionsByPeriod } from "@/utils/dateFilters";
 import { Period } from "../types/transaction.types";
 import { useMemo } from "react";
 
@@ -8,23 +7,14 @@ export const useTotalExpenses = (
   period?: Period,
   walletId?: string
 ) => {
-  const { data: transactions, isLoading } = useTransactions(userId);
+  const { data, isLoading } = useTransactions(userId, period || "week", walletId);
 
   const total = useMemo(() => {
-    if (!transactions) return 0;
-
-    const filtered = filterTransactionsByPeriod(
-      transactions.filter((t) => !walletId || t.wallet === walletId),
-      period || "week"
-    );
-
-    return filtered.reduce((acc, curr) => {
-      if (curr.transactionType === "expense") {
-        return acc + curr.amount;
-      }
-      return acc;
+    const transactions = data?.pages.flatMap((p) => p.transactions) ?? [];
+    return transactions.reduce((acc, curr) => {
+      return curr.transactionType === "expense" ? acc + curr.amount : acc;
     }, 0);
-  }, [transactions, period, walletId]);
+  }, [data]);
 
   return { total, isLoading };
 };

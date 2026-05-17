@@ -1,7 +1,8 @@
 import { Suspense, lazy } from "react";
 import { MainNav } from "@/components/MainNav";
 import { MobileNav } from "@/components/MobileNav";
-import fullHorizontalLogo from "./../assets/logo/full-ver.svg";
+import { ProfileLink } from "@/components/ProfileLink";
+import fullHorizontalLogo from "./../assets/logo/full-hor.svg";
 
 const AddCategory = lazy(() => import("@/features/categories/components/AddCategory"));
 const AddEditTransactionDialog = lazy(() => import("@/features/transactions/components/AddEditTransactionDialog"));
@@ -14,8 +15,9 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="flex flex-col md:flex-row max-w-[1920px] mx-auto">
-      <div className="md:hidden flex items-center justify-center p-4">
-        <img src={fullHorizontalLogo} alt="logo" className="w-auto h-16" />
+      <div className="md:hidden flex items-center justify-between p-4 h-16">
+        <img src={fullHorizontalLogo} alt="logo" className="w-auto h-full" />
+        <ProfileLink />
       </div>
       <div className="block lg:hidden">
         <MobileNav />
