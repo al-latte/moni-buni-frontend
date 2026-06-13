@@ -131,7 +131,7 @@ const AddWallet = () => {
                 <FormItem>
                   <FormLabel>Initial Balance</FormLabel>
                   <FormControl className="rounded-full">
-                    <Input type="number" {...field} />
+                    <Input type="number" inputMode="decimal" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
